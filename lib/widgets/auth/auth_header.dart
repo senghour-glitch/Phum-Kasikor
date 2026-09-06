@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import '../../color/color.dart';
+export '../../color/color.dart';
 
-const kFarmGreen = Color(0xFF237D32);
-const kFarmInk = Color(0xFF1E2B20);
-const kFarmMuted = Color(0xFF718074);
+const kFarmGreen = AppColors.primary;
+const kFarmInk = AppColors.textPrimary;
+const kFarmMuted = AppColors.textSecondary;
 
 class AuthPage extends StatelessWidget {
   const AuthPage({super.key, required this.child, this.showBack = false});
@@ -10,7 +12,7 @@ class AuthPage extends StatelessWidget {
   final bool showBack;
   @override
   Widget build(BuildContext context) => Scaffold(
-    backgroundColor: const Color(0xFFFCFDF9),
+    backgroundColor: AppColors.background,
     body: SafeArea(
       child: Center(
         child: ConstrainedBox(
@@ -205,7 +207,7 @@ class FarmTextField extends StatelessWidget {
           keyboardType: keyboardType,
           decoration: InputDecoration(
             hintText: hint,
-            hintStyle: const TextStyle(fontSize: 13, color: Color(0xFF9BA69D)),
+            hintStyle: const TextStyle(fontSize: 13, color: AppColors.textHint),
             prefixIcon: prefixIcon == null
                 ? null
                 : Icon(prefixIcon, size: 19, color: kFarmGreen),
@@ -217,11 +219,11 @@ class FarmTextField extends StatelessWidget {
             ),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8),
-              borderSide: const BorderSide(color: Color(0xFFE1E8E1)),
+              borderSide: const BorderSide(color: AppColors.border),
             ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8),
-              borderSide: const BorderSide(color: Color(0xFFE1E8E1)),
+              borderSide: const BorderSide(color: AppColors.border),
             ),
           ),
         ),
@@ -234,7 +236,7 @@ class AuthIllustration extends StatelessWidget {
   const AuthIllustration({
     super.key,
     required this.icon,
-    this.color = const Color(0xFFE8F5E9),
+    this.color = AppColors.primaryLight,
   });
   final IconData icon;
   final Color color;
