@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../widgets/auth/auth_header.dart';
 import 'otp_screen.dart';
-import 'sin_up_screen.dart';
+import 'sigup_screen.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -91,7 +91,7 @@ class LoginScreen extends StatelessWidget {
               child: TextButton(
                 onPressed: () => Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(builder: (_) => const SinUpScreen()),
+                  MaterialPageRoute(builder: (_) => const SigupScreen()),
                 ),
                 child: const Text(
                   "Don't have an account? Sign up",

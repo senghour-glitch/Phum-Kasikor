@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import '../../widgets/auth/auth_header.dart';
 import 'otp_screen.dart';
 
-class SinUpScreen extends StatelessWidget {
-  const SinUpScreen({super.key});
+class SigupScreen extends StatelessWidget {
+  const SigupScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
