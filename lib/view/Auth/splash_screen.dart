@@ -70,7 +70,7 @@ class _SplashScreenState extends State<SplashScreen> {
                     Text(
                       'Farm Fresh, Direct to You',
                       style: TextStyle(
-                        color: AppColors.textOnPrimary.withOpacity(0.8),
+                        color: AppColors.textOnPrimary.withValues(alpha: 0.8),
                         fontSize: 14,
                       ),
                     ),
@@ -82,7 +82,7 @@ class _SplashScreenState extends State<SplashScreen> {
               Text(
                 'Version 1.0.0',
                 style: TextStyle(
-                  color: AppColors.textOnPrimary.withOpacity(0.6),
+                  color: AppColors.textOnPrimary.withValues(alpha: 0.6),
                   fontSize: 12,
                 ),
               ),

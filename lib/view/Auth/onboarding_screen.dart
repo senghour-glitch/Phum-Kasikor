@@ -1,88 +1,87 @@
 import 'package:flutter/material.dart';
-import '../../widgets/auth/auth_header.dart';
-import 'welcome_screen.dart';
+import 'package:get/get.dart';
+import 'package:phum_kasikor/view/Auth/welcome_screen.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
 
   @override
-  State<OnboardingScreen> createState() => _OnboardingState();
+  State<OnboardingScreen> createState() => _OnboardingScreenState();
 }
 
-class _OnboardingState extends State<OnboardingScreen> {
-  final PageController _pageController = PageController();
+class _OnboardingScreenState extends State<OnboardingScreen> {
+  final _controller = PageController();
+  int _page = 0;
 
-  int currentPage = 0;
+  final _pages = const [
+    ('Fresh From the Farm', 'Connecting local Cambodian farmers directly with households. Enjoy premium, organic, and certified fresh produce while supporting local communities.'),
+    ('Support Local Farmers', 'Every purchase goes straight to the farmer who grew it.'),
+    ('Delivered To Your Door', 'Fast, reliable delivery from farm to table.'),
+  ];
+
+  void _finish() => Get.off(() => const WelcomeScreen());
 
   @override
-
-   void dispose() {
-    _pageController.dispose();
-    super.dispose();
-  }
-
-  
-   @override
-
   Widget build(BuildContext context) {
-    return AuthPage(
-      child: Column(
-        children: [
-          const Spacer(),
-          const AuthIllustration(
-            icon: Icons.eco_rounded,
-            color: Color(0xFFFFF2C5),
-          ),
-          const SizedBox(height: 36),
-          const AuthTitle(
-            center: true,
-            title: 'Fresh From the Farm',
-            subtitle:
-                'Connect with local farmers and discover fresh produce grown near you.',
-          ),
-          const SizedBox(height: 22),
-          const Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(Icons.remove, color: kFarmGreen),
-              Icon(Icons.remove, color: Color(0xFFCBD7CC)),
-              Icon(Icons.remove, color: Color(0xFFCBD7CC)),
-            ],
-          ),
-          const Spacer(),
-          FarmButton(
-            label: 'Next',
-            onPressed: () => Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (_) => const WelcomeScreen()),
+    return Scaffold(
+      body: SafeArea(
+        child: Column(
+          children: [
+            Align(
+              alignment: Alignment.topRight,
+              child: TextButton(onPressed: _finish, child: const Text('Skip')),
             ),
-          ),
-          const SizedBox(height: 28),
-        ],
+            Expanded(
+              child: PageView.builder(
+                controller: _controller,
+                itemCount: _pages.length,
+                onPageChanged: (i) => setState(() => _page = i),
+                itemBuilder: (context, i) => Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 32),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Icon(Icons.agriculture, size: 120, color: Color(0xFF2E7D32)),
+                      const SizedBox(height: 32),
+                      Text(_pages[i].$1, style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold), textAlign: TextAlign.center),
+                      const SizedBox(height: 12),
+                      Text(_pages[i].$2, style: const TextStyle(color: Colors.grey), textAlign: TextAlign.center),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: List.generate(_pages.length, (i) => Container(
+                margin: const EdgeInsets.all(4),
+                width: 8,
+                height: 8,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: i == _page ? const Color(0xFF2E7D32) : Colors.grey.shade300,
+                ),
+              )),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(24),
+              child: SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () {
+                    if (_page == _pages.length - 1) {
+                      _finish();
+                    } else {
+                      _controller.nextPage(duration: const Duration(milliseconds: 300), curve: Curves.easeInOut);
+                    }
+                  },
+                  child: Text(_page == _pages.length - 1 ? 'Get Started' : 'Next'),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
-   final List<Map<String, String>> pages = [
-    {
-      'image': 'assets/images/farm_onboarding.png',
-      'khmerTitle': 'ស្រស់ពីកសិដ្ឋានមកដល់អ្នក',
-      'title': 'Fresh From the Farm',
-      'description':
-          'Connecting local Cambodian farmers directly with households. Enjoy premium, organic, and fresh produce while supporting local communities.',
-    },
-    {
-      'image': 'assets/images/farm_onboarding.png',
-      'khmerTitle': 'គាំទ្រកសិករមូលដ្ឋាន',
-      'title': 'Support Local Farmers',
-      'description':
-          'Buy fresh products directly from local farmers and help strengthen Cambodian farming communities.',
-    },
-    {
-      'image': 'assets/images/farm_onboarding.png',
-      'khmerTitle': 'ទិញបានងាយស្រួល',
-      'title': 'Shop Fresh & Easy',
-      'description':
-          'Discover fresh farm products, order easily, and enjoy a simple shopping experience.',
-    },
-  ];
 }

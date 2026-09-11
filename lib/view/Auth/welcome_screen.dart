@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../widgets/auth/auth_header.dart';
 import 'login_screen.dart';
-import 'sin_up_screen.dart';
+import 'sigup_screen.dart';
 
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({super.key});
@@ -38,7 +38,7 @@ class WelcomeScreen extends StatelessWidget {
             outlined: true,
             onPressed: () => Navigator.push(
               context,
-              MaterialPageRoute(builder: (_) => const SinUpScreen()),
+              MaterialPageRoute(builder: (_) => const SigupScreen()),
             ),
           ),
           const SizedBox(height: 28),

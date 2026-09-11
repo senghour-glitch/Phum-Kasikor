@@ -2,8 +2,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:phum_kasikor/color/color.dart';
+import 'package:phum_kasikor/core/routes/app_routes.dart';
+import 'package:phum_kasikor/core/routes/route_generator.dart';
 import 'package:phum_kasikor/firebase_options.dart';
-import 'package:phum_kasikor/view/Auth/splash_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,7 +24,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       theme: AppTheme.light,
-      home: const SplashScreen(),
+      initialRoute: AppRoutes.onboarding,
+
+      onGenerateRoute:
+          RouteGenerator.generateRoute,
     );
   }
 }
