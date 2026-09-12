@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import '../../widgets/auth/auth_header.dart';
 import 'welcome_screen.dart';
 
@@ -34,10 +35,7 @@ class Onboarding extends StatelessWidget {
           const Spacer(),
           FarmButton(
             label: 'Next',
-            onPressed: () => Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (_) => const WelcomeScreen()),
-            ),
+            onPressed: () => Get.offNamed('/welcome'),
           ),
           const SizedBox(height: 28),
         ],

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import '../../controllers/auth_controller.dart';
 import '../../widgets/auth/auth_header.dart';
 import 'otp_screen.dart';
 
@@ -7,6 +9,7 @@ class SinUpScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final auth = Get.find<AuthController>();
     return AuthPage(
       showBack: true,
       child: SingleChildScrollView(
@@ -19,35 +22,39 @@ class SinUpScreen extends StatelessWidget {
               subtitle: 'Join Phum Kasikor and support local farmers.',
             ),
             const SizedBox(height: 25),
-            const FarmTextField(
+            FarmTextField(
               label: 'Full name',
               hint: 'Sok Dara',
               prefixIcon: Icons.person_outline,
+              controller: auth.signUpNameController,
             ),
-            const FarmTextField(
+            FarmTextField(
               label: 'Phone number',
               hint: '+855 12 345 678',
               prefixIcon: Icons.phone_outlined,
               keyboardType: TextInputType.phone,
+              controller: auth.signUpPhoneController,
             ),
-            const FarmTextField(
+            FarmTextField(
               label: 'Email (optional)',
               hint: 'you@example.com',
               prefixIcon: Icons.email_outlined,
               keyboardType: TextInputType.emailAddress,
+              controller: auth.signUpEmailController,
             ),
-            const FarmTextField(
+            FarmTextField(
               label: 'Password',
               hint: 'Create a password',
               prefixIcon: Icons.lock_outline,
               obscureText: true,
+              controller: auth.signUpPasswordController,
             ),
-            Row(
+            Obx(() => Row(
               children: [
                 Checkbox(
-                  value: true,
+                  value: auth.acceptedTerms.value,
                   activeColor: kFarmGreen,
-                  onChanged: (_) {},
+                  onChanged: (value) => auth.acceptedTerms.value = value ?? false,
                 ),
                 const Expanded(
                   child: Text(
@@ -56,14 +63,11 @@ class SinUpScreen extends StatelessWidget {
                   ),
                 ),
               ],
-            ),
+            )),
             const SizedBox(height: 12),
             FarmButton(
               label: 'Create Account',
-              onPressed: () => Navigator.push(
-                context,
-                MaterialPageRoute(builder: (_) => const OtpScreen()),
-              ),
+              onPressed: auth.beginSignUp,
             ),
           ],
         ),

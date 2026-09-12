@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import '../../widgets/auth/auth_header.dart';
 import 'login_screen.dart';
 import 'sin_up_screen.dart';
@@ -27,19 +28,13 @@ class WelcomeScreen extends StatelessWidget {
           const Spacer(),
           FarmButton(
             label: 'Log in',
-            onPressed: () => Navigator.push(
-              context,
-              MaterialPageRoute(builder: (_) => const LoginScreen()),
-            ),
+            onPressed: () => Get.toNamed('/login'),
           ),
           const SizedBox(height: 10),
           FarmButton(
             label: 'Create an account',
             outlined: true,
-            onPressed: () => Navigator.push(
-              context,
-              MaterialPageRoute(builder: (_) => const SinUpScreen()),
-            ),
+            onPressed: () => Get.toNamed('/sign-up'),
           ),
           const SizedBox(height: 28),
         ],

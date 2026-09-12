@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import '../../widgets/auth/auth_header.dart';
 import 'onboarding.dart';
 
@@ -50,9 +51,7 @@ class SplashScreen extends StatelessWidget {
             ),
             const SizedBox(height: 18),
             TextButton(
-              onPressed: () => Navigator.of(context).pushReplacement(
-                MaterialPageRoute(builder: (_) => const Onboarding()),
-              ),
+              onPressed: () => Get.offNamed('/onboarding'),
               child: const Text(
                 'Tap to continue',
                 style: TextStyle(color: Colors.white70),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import '../../color/color.dart';
 export '../../color/color.dart';
 
@@ -28,7 +29,7 @@ class AuthPage extends StatelessWidget {
                     child: showBack
                         ? IconButton(
                             tooltip: 'Back',
-                            onPressed: () => Navigator.maybePop(context),
+                            onPressed: Get.back,
                             icon: const Icon(
                               Icons.arrow_back_ios_new_rounded,
                               size: 19,
@@ -182,11 +183,13 @@ class FarmTextField extends StatelessWidget {
     this.prefixIcon,
     this.obscureText = false,
     this.keyboardType,
+    this.controller,
   });
   final String label, hint;
   final IconData? prefixIcon;
   final bool obscureText;
   final TextInputType? keyboardType;
+  final TextEditingController? controller;
   @override
   Widget build(BuildContext context) => Padding(
     padding: const EdgeInsets.only(bottom: 14),
@@ -203,6 +206,7 @@ class FarmTextField extends StatelessWidget {
         ),
         const SizedBox(height: 6),
         TextField(
+          controller: controller,
           obscureText: obscureText,
           keyboardType: keyboardType,
           decoration: InputDecoration(

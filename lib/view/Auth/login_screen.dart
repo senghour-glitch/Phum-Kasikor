@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import '../../controllers/auth_controller.dart';
 import '../../widgets/auth/auth_header.dart';
 import 'otp_screen.dart';
 import 'sin_up_screen.dart';
@@ -8,6 +10,7 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final auth = Get.find<AuthController>();
     return AuthPage(
       showBack: true,
       child: SingleChildScrollView(
@@ -22,17 +25,19 @@ class LoginScreen extends StatelessWidget {
               subtitle: 'Log in to continue shopping local.',
             ),
             const SizedBox(height: 28),
-            const FarmTextField(
+            FarmTextField(
               label: 'Phone number',
               hint: '+855 12 345 678',
               prefixIcon: Icons.phone_outlined,
               keyboardType: TextInputType.phone,
+              controller: auth.loginPhoneController,
             ),
-            const FarmTextField(
+            FarmTextField(
               label: 'Password',
               hint: '••••••••',
               prefixIcon: Icons.lock_outline,
               obscureText: true,
+              controller: auth.loginPasswordController,
             ),
             Align(
               alignment: Alignment.centerRight,
@@ -47,10 +52,7 @@ class LoginScreen extends StatelessWidget {
             const SizedBox(height: 12),
             FarmButton(
               label: 'Log in',
-              onPressed: () => Navigator.push(
-                context,
-                MaterialPageRoute(builder: (_) => const OtpScreen()),
-              ),
+              onPressed: auth.beginLogin,
             ),
             const SizedBox(height: 22),
             const Row(
@@ -89,10 +91,7 @@ class LoginScreen extends StatelessWidget {
             const SizedBox(height: 18),
             Center(
               child: TextButton(
-                onPressed: () => Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (_) => const SinUpScreen()),
-                ),
+                onPressed: () => Get.offNamed('/sign-up'),
                 child: const Text(
                   "Don't have an account? Sign up",
                   style: TextStyle(color: kFarmGreen),
