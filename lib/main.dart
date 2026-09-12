@@ -24,8 +24,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       theme: AppTheme.light,
-      initialRoute: AppRoutes.onboarding,
-
+      initialRoute: AppRoutes.signup,
       onGenerateRoute:
           RouteGenerator.generateRoute,
     );

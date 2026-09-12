@@ -1,48 +1,250 @@
 import 'package:flutter/material.dart';
-import '../../widgets/auth/auth_header.dart';
-import 'login_screen.dart';
-import 'sigup_screen.dart';
+import 'package:get/get.dart';
+import 'package:phum_kasikor/color/color.dart';
+import 'package:phum_kasikor/view/Auth/login_screen.dart';
+import 'package:phum_kasikor/view/Auth/sigup_screen.dart';
+import 'package:phum_kasikor/view/Customer/customer_home_screen.dart';
 
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return AuthPage(
-      child: Column(
-        children: [
-          const Spacer(),
-          const AuthIllustration(
-            icon: Icons.handshake_rounded,
-            color: Color(0xFFFFF5D7),
-          ),
-          const SizedBox(height: 24),
-          const AuthBrand(compact: true),
-          const SizedBox(height: 14),
-          const AuthTitle(
-            center: true,
-            title: 'Welcome to Phum Kasikor',
-            subtitle: 'The local marketplace for farmers and customers.',
-          ),
-          const Spacer(),
-          FarmButton(
-            label: 'Log in',
-            onPressed: () => Navigator.push(
-              context,
-              MaterialPageRoute(builder: (_) => const LoginScreen()),
+    final size = MediaQuery.of(context).size;
+
+    return Scaffold(
+      backgroundColor: const Color(0xFFFAF9F5),
+
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Column(
+              children: [
+                SizedBox(height: size.height * 0.055),
+                Container(
+                  width: double.infinity,
+                  height: size.height * 0.30,
+
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(28),
+                  ),
+
+                  child: Padding(
+                    padding: const EdgeInsets.all(10),
+
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(22),
+
+                      child: Image.asset(
+                        'assets/ស្វាយចន្ទី.jpg',
+                        fit: BoxFit.cover,
+
+                        errorBuilder: (context, error, stackTrace) {
+                          return const Center(
+                            child: Icon(
+                              Icons.image_outlined,
+                              size: 60,
+                              color: Colors.grey,
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ),
+                ),
+
+                const SizedBox(height: 14),
+                ClipOval(
+                  child: Image.asset(
+                    'assets/logo.jpg',
+                    width: 55,
+                    height: 55,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                const SizedBox(height: 12),
+                const Text(
+                  'សូមស្វាគមន៍មកកាន់ ភូមិកសិករ',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.primaryDark,
+                    height: 1.3,
+                  ),
+                ),
+
+                const SizedBox(height: 5),
+                const Text(
+                  'Empowering local agriculture, nourishing\nCambodian families.',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 13,
+                    color: AppColors.textPrimary,
+                    height: 1.35,
+                  ),
+                ),
+
+                const SizedBox(height: 28),
+                SizedBox(
+                  width: double.infinity,
+                  height: 50,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Get.to(()=> LoginScreen());
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppColors.primary,
+                      foregroundColor: Colors.white,
+
+                      elevation: 0,
+
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(13),
+                      ),
+                    ),
+
+                    child: const Text(
+                      'Log In',
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+
+                const SizedBox(height: 10),
+                SizedBox(
+                  width: double.infinity,
+                  height: 50,
+
+                  child: OutlinedButton(
+                    onPressed: () {
+                      Get.to(() => const SigupScreen());
+                    },
+
+                    style: OutlinedButton.styleFrom(
+                      backgroundColor: Colors.white,
+
+                      foregroundColor: AppColors.primary,
+
+                      side: const BorderSide(
+                        color: AppColors.primary,
+                        width: 1.5,
+                      ),
+
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(13),
+                      ),
+                    ),
+
+                    child: const Text(
+                      'Create Account',
+
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+
+                const SizedBox(height: 18),
+                const Text(
+                  'OR SIGN IN WITH',
+
+                  style: TextStyle(
+                    fontSize: 11,
+                    fontWeight: FontWeight.w500,
+                    color: Color(0xFF9CA3AF),
+                    letterSpacing: 0.4,
+                  ),
+                ),
+
+                const SizedBox(height: 12),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    //phone_number
+                    _socialImageButton(
+                      image: 'assets/phone_number.jpg',
+                      onTap: () {},
+                    ),
+                    SizedBox(width: 14),
+
+                    // Facebook
+                    _socialImageButton(
+                      image: 'assets/facebook.jpg',
+                      onTap: () {},
+                    ),
+                    SizedBox(width: 14),
+
+                    // Google
+                    _socialImageButton(
+                      image: 'assets/google.jpg',
+                      onTap: () {},
+                    ),
+                    SizedBox(width: 14),
+                  ],
+                ),
+                const SizedBox(height: 16),
+                TextButton(
+                  onPressed: () {
+                    Get.to(()=> CustomerHomeScreen());
+                  },
+
+                  style: TextButton.styleFrom(
+                    padding: EdgeInsets.zero,
+                    minimumSize: Size.zero,
+                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  ),
+
+                  child: const Text(
+                    'Continue as Guest',
+
+                    style: TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.primary,
+                      decoration: TextDecoration.underline,
+                    ),
+                  ),
+                ),
+                SizedBox(height: size.height * 0.025),
+              ],
             ),
           ),
-          const SizedBox(height: 10),
-          FarmButton(
-            label: 'Create an account',
-            outlined: true,
-            onPressed: () => Navigator.push(
-              context,
-              MaterialPageRoute(builder: (_) => const SigupScreen()),
-            ),
-          ),
-          const SizedBox(height: 28),
-        ],
+        ),
+      ),
+    );
+  }
+
+  static Widget _socialImageButton({
+    required String image,
+    required VoidCallback onTap,
+  }) {
+    return InkWell(
+      onTap: onTap,
+
+      borderRadius: BorderRadius.circular(10),
+
+      child: Container(
+        width: 46,
+        height: 40,
+
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(10),
+          border: Border.all(color: const Color(0xFFE5E7EB)),
+        ),
+
+        child: Padding(
+          padding: const EdgeInsets.all(9),
+          child: Image.asset(image, fit: BoxFit.contain),
+        ),
       ),
     );
   }
