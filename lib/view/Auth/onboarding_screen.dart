@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:phum_kasikor/color/color.dart';
 import 'package:phum_kasikor/view/Auth/welcome_screen.dart';
 
 class OnboardingScreen extends StatefulWidget {
@@ -10,16 +11,52 @@ class OnboardingScreen extends StatefulWidget {
 }
 
 class _OnboardingScreenState extends State<OnboardingScreen> {
-  final _controller = PageController();
+  final PageController _controller = PageController();
+
   int _page = 0;
 
   final _pages = const [
-    ('Fresh From the Farm', 'Connecting local Cambodian farmers directly with households. Enjoy premium, organic, and certified fresh produce while supporting local communities.'),
-    ('Support Local Farmers', 'Every purchase goes straight to the farmer who grew it.'),
-    ('Delivered To Your Door', 'Fast, reliable delivery from farm to table.'),
+    (
+      image: 'assets/corn_image.jpg',
+      title: 'Fresh From the Farm',
+      description:
+          'Discover fresh produce directly from local Cambodian farmers.',
+    ),
+    (
+      image: 'assets/group_people.jpg',
+      title: 'Support Local Farmers',
+      description:
+          'Every purchase helps local farmers grow their farms and communities.',
+    ),
+    (
+      image: 'assets/banana.jpg',
+      title: 'Delivered To Your Door',
+      description:
+          'Enjoy fresh farm products delivered conveniently to your doorstep.',
+    ),
   ];
 
-  void _finish() => Get.off(() => const WelcomeScreen());
+  void _finish() {
+    Get.off(() => const WelcomeScreen());
+  }
+
+  void _nextPage() {
+    if (_page == _pages.length - 1) {
+      _finish();
+      return;
+    }
+
+    _controller.nextPage(
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeInOut,
+    );
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,53 +66,116 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           children: [
             Align(
               alignment: Alignment.topRight,
-              child: TextButton(onPressed: _finish, child: const Text('Skip')),
+              child: Padding(
+                padding: const EdgeInsets.only(right: 12, top: 4),
+                child: TextButton(
+                  onPressed: _finish,
+                  child: const Text(
+                    'Skip',
+                    style: TextStyle(fontSize: 16, color: AppColors.primary),
+                  ),
+                ),
+              ),
             ),
             Expanded(
               child: PageView.builder(
                 controller: _controller,
                 itemCount: _pages.length,
-                onPageChanged: (i) => setState(() => _page = i),
-                itemBuilder: (context, i) => Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 32),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Icon(Icons.agriculture, size: 120, color: Color(0xFF2E7D32)),
-                      const SizedBox(height: 32),
-                      Text(_pages[i].$1, style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold), textAlign: TextAlign.center),
-                      const SizedBox(height: 12),
-                      Text(_pages[i].$2, style: const TextStyle(color: Colors.grey), textAlign: TextAlign.center),
-                    ],
-                  ),
-                ),
+
+                onPageChanged: (index) {
+                  setState(() {
+                    _page = index;
+                  });
+                },
+
+                itemBuilder: (context, index) {
+                  final page = _pages[index];
+
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        AspectRatio(
+                          aspectRatio: 0.95,
+                          child: Container(
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(32),
+                              color: AppColors.primaryLight,
+                              image: DecorationImage(
+                                image: AssetImage(page.image),
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 28),
+                        Text(
+                          page.title,
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                            fontSize: 25,
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.primaryDark,
+                          ),
+                        ),
+                        const SizedBox(height: 12),
+                        Text(
+                          page.description,
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                            fontSize: 15,
+                            height: 1.5,
+                            color: Colors.black54,
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                },
               ),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: List.generate(_pages.length, (i) => Container(
-                margin: const EdgeInsets.all(4),
-                width: 8,
-                height: 8,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: i == _page ? const Color(0xFF2E7D32) : Colors.grey.shade300,
-                ),
-              )),
+              children: List.generate(_pages.length, (index) {
+                final isActive = index == _page;
+
+                return AnimatedContainer(
+                  duration: const Duration(milliseconds: 250),
+                  margin: const EdgeInsets.symmetric(horizontal: 4),
+                  width: isActive ? 22 : 8,
+                  height: 8,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: isActive
+                        ? AppColors.primaryDark
+                        : Colors.grey.shade300,
+                  ),
+                );
+              }),
             ),
+
+            const SizedBox(height: 20),
             Padding(
-              padding: const EdgeInsets.all(24),
-              child: SizedBox(
+              padding: const EdgeInsets.fromLTRB(24, 0, 24, 24),
+              child: Container(
                 width: double.infinity,
+                height: 54,
                 child: ElevatedButton(
-                  onPressed: () {
-                    if (_page == _pages.length - 1) {
-                      _finish();
-                    } else {
-                      _controller.nextPage(duration: const Duration(milliseconds: 300), curve: Curves.easeInOut);
-                    }
-                  },
-                  child: Text(_page == _pages.length - 1 ? 'Get Started' : 'Next'),
+                  onPressed: _nextPage,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.primaryDark,
+                    foregroundColor: AppColors.primaryLight,
+                  ),
+                  child: Text(
+                    _page == _pages.length - 1 ? 'Get Started' : 'Next',
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
                 ),
               ),
             ),

@@ -1,0 +1,142 @@
+import '../../core/network/api_client.dart';
+import '../../core/network/api_exception.dart';
+import '../../core/network/api_response.dart';
+import '../../core/storage/token_storage.dart';
+import '../../models/user_model.dart';
+
+class AuthRepository {
+  Future<ApiResponse<Map<String, dynamic>>> register({
+    required String name,
+    String? email,
+    String? phone,
+    required String password,
+  }) async {
+    try {
+      final json = await ApiClient.post('register', {
+        'name': name,
+        if (email != null) 'email': email,
+        if (phone != null) 'phone': phone,
+        'password': password,
+      });
+
+      await TokenStorage.saveToken(json['token']);
+
+      return ApiResponse.success({
+        'user': UserModel.fromJson(json['user']),
+        'token': json['token'] as String,
+      });
+    } on ApiException catch (e) {
+      return ApiResponse.failure(e.message, errors: e.errors);
+    }
+  }
+
+  Future<ApiResponse<UserModel>> verify({required int userId, required String code}) async {
+    try {
+      final json = await ApiClient.post('verify', {'user_id': userId, 'code': code});
+      return ApiResponse.success(UserModel.fromJson(json['user']));
+    } on ApiException catch (e) {
+      return ApiResponse.failure(e.message, errors: e.errors);
+    }
+  }
+
+  Future<ApiResponse<UserModel>> login({required String identifier, required String password}) async {
+    try {
+      final json = await ApiClient.post('login', {'identifier': identifier, 'password': password});
+      await TokenStorage.saveToken(json['token']);
+      return ApiResponse.success(UserModel.fromJson(json['user']));
+    } on ApiException catch (e) {
+      return ApiResponse.failure(e.message, errors: e.errors);
+    }
+  }
+
+  /// Returns the user plus whether they're brand new (needs onboarding)
+  /// or existing (goes straight into the app).
+  Future<ApiResponse<Map<String, dynamic>>> firebaseLogin({required String idToken}) async {
+    try {
+      final json = await ApiClient.post('firebase-login', {'id_token': idToken});
+      await TokenStorage.saveToken(json['token']);
+
+      return ApiResponse.success({
+        'user': UserModel.fromJson(json['user']),
+        'isNew': json['is_new'] as bool,
+      });
+    } on ApiException catch (e) {
+      return ApiResponse.failure(e.message, errors: e.errors);
+    }
+  }
+
+  Future<ApiResponse<UserModel>> chooseRole({required String role}) async {
+    try {
+      final json = await ApiClient.put('choose-role', {'role': role});
+      await TokenStorage.saveRole(role);
+      return ApiResponse.success(UserModel.fromJson(json));
+    } on ApiException catch (e) {
+      return ApiResponse.failure(e.message, errors: e.errors);
+    }
+  }
+
+  Future<ApiResponse<UserModel>> setupProfile({
+    String? name,
+    String? displayName,
+    String? bio,
+    String? gender,
+    DateTime? dateOfBirth,
+    String? profileImage,
+    String? farmName,
+  }) async {
+    try {
+      final json = await ApiClient.put('profile-setup', {
+        if (name != null) 'name': name,
+        if (displayName != null) 'display_name': displayName,
+        if (bio != null) 'bio': bio,
+        if (gender != null) 'gender': gender,
+        if (dateOfBirth != null) 'date_of_birth': dateOfBirth.toIso8601String().split('T').first,
+        if (profileImage != null) 'profile_image': profileImage,
+        if (farmName != null) 'farm_name': farmName,
+      });
+      return ApiResponse.success(UserModel.fromJson(json));
+    } on ApiException catch (e) {
+      return ApiResponse.failure(e.message, errors: e.errors);
+    }
+  }
+
+  Future<ApiResponse<UserModel>> setupLocation({
+    required String province,
+    String? district,
+    String? commune,
+    double? latitude,
+    double? longitude,
+  }) async {
+    try {
+      final json = await ApiClient.put('location-setup', {
+        'province': province,
+        if (district != null) 'district': district,
+        if (commune != null) 'commune': commune,
+        if (latitude != null) 'latitude': latitude,
+        if (longitude != null) 'longitude': longitude,
+      });
+      return ApiResponse.success(UserModel.fromJson(json));
+    } on ApiException catch (e) {
+      return ApiResponse.failure(e.message, errors: e.errors);
+    }
+  }
+
+  Future<ApiResponse<UserModel>> me() async {
+    try {
+      final json = await ApiClient.get('me');
+      return ApiResponse.success(UserModel.fromJson(json));
+    } on ApiException catch (e) {
+      return ApiResponse.failure(e.message, errors: e.errors);
+    }
+  }
+
+  Future<void> logout() async {
+    try {
+      await ApiClient.post('logout');
+    } on ApiException {
+      // Even if the server call fails (e.g. token already expired),
+      // clear local state so the user isn't stuck.
+    }
+    await TokenStorage.clear();
+  }
+}

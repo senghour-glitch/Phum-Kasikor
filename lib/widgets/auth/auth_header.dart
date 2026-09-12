@@ -184,56 +184,83 @@ class FarmTextField extends StatelessWidget {
     this.obscureText = false,
     this.keyboardType,
     this.controller,
+    this.validator,
   });
-  final String label, hint;
+
+  final String label;
+  final String hint;
   final IconData? prefixIcon;
   final bool obscureText;
   final TextInputType? keyboardType;
+
+  // Added for form validation
   final TextEditingController? controller;
+  final String? Function(String?)? validator;
+
   @override
   Widget build(BuildContext context) => Padding(
-    padding: const EdgeInsets.only(bottom: 14),
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          label,
-          style: const TextStyle(
-            fontSize: 12,
-            fontWeight: FontWeight.w600,
-            color: kFarmInk,
-          ),
+        padding: const EdgeInsets.only(bottom: 14),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              label,
+              style: const TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.w600,
+                color: kFarmInk,
+              ),
+            ),
+
+            const SizedBox(height: 6),
+
+            TextFormField(
+              controller: controller,
+              obscureText: obscureText,
+              keyboardType: keyboardType,
+              validator: validator,
+
+              decoration: InputDecoration(
+                hintText: hint,
+                hintStyle: const TextStyle(
+                  fontSize: 13,
+                  color: AppColors.textHint,
+                ),
+
+                prefixIcon: prefixIcon == null
+                    ? null
+                    : Icon(
+                        prefixIcon,
+                        size: 19,
+                        color: kFarmGreen,
+                      ),
+
+                filled: true,
+                fillColor: Colors.white,
+
+                contentPadding: const EdgeInsets.symmetric(
+                  horizontal: 13,
+                  vertical: 13,
+                ),
+
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                  borderSide: const BorderSide(
+                    color: AppColors.border,
+                  ),
+                ),
+
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                  borderSide: const BorderSide(
+                    color: AppColors.border,
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
-        const SizedBox(height: 6),
-        TextField(
-          controller: controller,
-          obscureText: obscureText,
-          keyboardType: keyboardType,
-          decoration: InputDecoration(
-            hintText: hint,
-            hintStyle: const TextStyle(fontSize: 13, color: AppColors.textHint),
-            prefixIcon: prefixIcon == null
-                ? null
-                : Icon(prefixIcon, size: 19, color: kFarmGreen),
-            filled: true,
-            fillColor: Colors.white,
-            contentPadding: const EdgeInsets.symmetric(
-              horizontal: 13,
-              vertical: 13,
-            ),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
-              borderSide: const BorderSide(color: AppColors.border),
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
-              borderSide: const BorderSide(color: AppColors.border),
-            ),
-          ),
-        ),
-      ],
-    ),
-  );
+      );
 }
 
 class AuthIllustration extends StatelessWidget {
