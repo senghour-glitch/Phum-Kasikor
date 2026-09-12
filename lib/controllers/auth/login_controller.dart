@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
+import 'package:phum_kasikor/view/Customer/customer_home_screen.dart';
 import '../../core/storage/token_storage.dart';
 import '../../repositories/auth/auth_repository.dart';
-import '../../view/costommer/customer_home_screen.dart';
 import '../../view/farmer/farmer_home_screen.dart';
 
 class LocationSetupController extends GetxController {
