@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import '../../controllers/auth_controller.dart';
 import '../../widgets/auth/auth_header.dart';
 import 'otp_screen.dart';
-import 'sin_up_screen.dart';
+import 'sigup_screen.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -91,7 +91,14 @@ class LoginScreen extends StatelessWidget {
             const SizedBox(height: 18),
             Center(
               child: TextButton(
+<<<<<<< HEAD
                 onPressed: () => Get.offNamed('/sign-up'),
+=======
+                onPressed: () => Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (_) => const SigupScreen()),
+                ),
+>>>>>>> 4378a247e554c8536c582b7bc00fcb67f387ba60
                 child: const Text(
                   "Don't have an account? Sign up",
                   style: TextStyle(color: kFarmGreen),

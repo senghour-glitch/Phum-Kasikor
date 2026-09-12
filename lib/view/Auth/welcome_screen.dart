@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../widgets/auth/auth_header.dart';
 import 'login_screen.dart';
-import 'sin_up_screen.dart';
+import 'sigup_screen.dart';
 
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({super.key});
@@ -34,7 +34,14 @@ class WelcomeScreen extends StatelessWidget {
           FarmButton(
             label: 'Create an account',
             outlined: true,
+<<<<<<< HEAD
             onPressed: () => Get.toNamed('/sign-up'),
+=======
+            onPressed: () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => const SigupScreen()),
+            ),
+>>>>>>> 4378a247e554c8536c582b7bc00fcb67f387ba60
           ),
           const SizedBox(height: 28),
         ],
