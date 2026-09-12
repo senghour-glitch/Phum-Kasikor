@@ -51,7 +51,13 @@ class ChooseRoleScreen extends StatelessWidget {
 }
 
 class _RoleCard extends StatelessWidget {
-  const _RoleCard({required this.selected, required this.icon, required this.title, required this.description, required this.onTap});
+  const _RoleCard({
+    required this.selected,
+    required this.icon,
+    required this.title,
+    required this.description,
+    required this.onTap,
+  });
   final bool selected;
   final IconData icon;
   final String title, description;

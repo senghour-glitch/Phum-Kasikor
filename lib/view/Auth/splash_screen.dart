@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+<<<<<<< HEAD
+import '../../widgets/auth/auth_header.dart';
+import 'onboarding.dart';
+=======
 import 'package:phum_kasikor/color/color.dart';
 import 'package:phum_kasikor/view/Auth/onboarding_screen.dart';
+>>>>>>> 4378a247e554c8536c582b7bc00fcb67f387ba60
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -86,8 +91,43 @@ class _SplashScreenState extends State<SplashScreen> {
                   fontSize: 12,
                 ),
               ),
+<<<<<<< HEAD
+            ),
+            const SizedBox(height: 12),
+            const Text(
+              'ភូមិកសិករ',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 22,
+                fontWeight: FontWeight.w800,
+              ),
+            ),
+            const Text(
+              'PHUM KASIKOR',
+              style: TextStyle(
+                color: Colors.white70,
+                fontSize: 9,
+                letterSpacing: 1.8,
+              ),
+            ),
+            const SizedBox(height: 30),
+            const CircularProgressIndicator(
+              color: Colors.white,
+              strokeWidth: 2,
+            ),
+            const SizedBox(height: 18),
+            TextButton(
+              onPressed: () => Get.offNamed('/onboarding'),
+              child: const Text(
+                'Tap to continue',
+                style: TextStyle(color: Colors.white70),
+              ),
+            ),
+          ],
+=======
             ],
           ),
+>>>>>>> 4378a247e554c8536c582b7bc00fcb67f387ba60
         ),
       ),
     );

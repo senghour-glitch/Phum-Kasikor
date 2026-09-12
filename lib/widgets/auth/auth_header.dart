@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import '../../color/color.dart';
 export '../../color/color.dart';
 
@@ -28,7 +29,7 @@ class AuthPage extends StatelessWidget {
                     child: showBack
                         ? IconButton(
                             tooltip: 'Back',
-                            onPressed: () => Navigator.maybePop(context),
+                            onPressed: Get.back,
                             icon: const Icon(
                               Icons.arrow_back_ios_new_rounded,
                               size: 19,

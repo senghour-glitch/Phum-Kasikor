@@ -215,6 +215,7 @@ class WelcomeScreen extends StatelessWidget {
                 ),
                 SizedBox(height: size.height * 0.025),
               ],
+            onPressed: () => Get.toNamed('/sign-up'),
             ),
           ),
         ),
