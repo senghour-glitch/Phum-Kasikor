@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../widgets/auth/auth_header.dart';
-import 'otp_screen.dart';
+import 'package:get/get.dart';
+import 'package:phum_kasikor/widgets/auth/auth_header.dart';
+import 'package:phum_kasikor/controllers/auth/login_controller.dart';
 import 'sigup_screen.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -8,6 +9,8 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.put(LoginController());
+
     return AuthPage(
       showBack: true,
       child: SingleChildScrollView(
@@ -22,17 +25,19 @@ class LoginScreen extends StatelessWidget {
               subtitle: 'Log in to continue shopping local.',
             ),
             const SizedBox(height: 28),
-            const FarmTextField(
+            FarmTextField(
               label: 'Phone number',
               hint: '+855 12 345 678',
               prefixIcon: Icons.phone_outlined,
               keyboardType: TextInputType.phone,
+              controller: controller.identifierController,
             ),
-            const FarmTextField(
+            FarmTextField(
               label: 'Password',
               hint: '••••••••',
               prefixIcon: Icons.lock_outline,
               obscureText: true,
+              controller: controller.passwordController,
             ),
             Align(
               alignment: Alignment.centerRight,
@@ -44,14 +49,17 @@ class LoginScreen extends StatelessWidget {
                 ),
               ),
             ),
+            Obx(() => controller.errorMessage.value != null
+                ? Padding(
+                    padding: const EdgeInsets.only(bottom: 8),
+                    child: Text(controller.errorMessage.value!, style: const TextStyle(color: Colors.red, fontSize: 12)),
+                  )
+                : const SizedBox.shrink()),
             const SizedBox(height: 12),
-            FarmButton(
-              label: 'Log in',
-              onPressed: () => Navigator.push(
-                context,
-                MaterialPageRoute(builder: (_) => const OtpScreen()),
-              ),
-            ),
+            Obx(() => FarmButton(
+              label: controller.isLoading.value ? 'Logging in...' : 'Log in',
+              onPressed: controller.isLoading.value ? null : controller.login,
+            )),
             const SizedBox(height: 22),
             const Row(
               children: [
@@ -67,13 +75,13 @@ class LoginScreen extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 14),
-            Row(
+            Obx(() => Row(
               children: [
                 Expanded(
                   child: FarmButton(
                     label: 'Google',
                     outlined: true,
-                    onPressed: () {},
+                    onPressed: controller.isLoading.value ? null : controller.signInWithGoogle,
                   ),
                 ),
                 const SizedBox(width: 12),
@@ -81,11 +89,11 @@ class LoginScreen extends StatelessWidget {
                   child: FarmButton(
                     label: 'Facebook',
                     outlined: true,
-                    onPressed: () {},
+                    onPressed: controller.isLoading.value ? null : controller.signInWithFacebook,
                   ),
                 ),
               ],
-            ),
+            )),
             const SizedBox(height: 18),
             Center(
               child: TextButton(

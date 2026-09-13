@@ -19,14 +19,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-
       title: 'Phum Kasikor',
-
       theme: AppTheme.light,
-
       // First screen
-      initialRoute: AppRoutes.signup,
-
+      initialRoute: AppRoutes.splash,
       // GetX routes
       getPages: AppPages.routes,
     );

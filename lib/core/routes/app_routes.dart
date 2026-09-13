@@ -9,6 +9,8 @@ class AppRoutes {
   static const signup = '/signup';
   static const roleSelection = '/role-selection';
   static const verification = '/verification';
+  static const profileSetup = '/profile-setup';
+  static const locationSetup = '/location-setup';
 
   // =========================
   // CUSTOMER

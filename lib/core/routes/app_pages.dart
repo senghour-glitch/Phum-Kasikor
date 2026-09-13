@@ -7,6 +7,8 @@ import 'package:phum_kasikor/view/Auth/onboarding_screen.dart';
 import 'package:phum_kasikor/view/Auth/otp_screen.dart';
 import 'package:phum_kasikor/view/Auth/sigup_screen.dart';
 import 'package:phum_kasikor/view/Auth/splash_screen.dart';
+import 'package:phum_kasikor/view/Auth/profile_setup_screen.dart';
+import 'package:phum_kasikor/view/Auth/location_setup_screen.dart';
 
 // Customer
 import 'package:phum_kasikor/view/Customer/customer_cart_screen.dart';
@@ -43,39 +45,32 @@ import 'app_routes.dart';
 class AppPages {
   static final List<GetPage> routes = [
     // ==================== AUTH ====================
+    GetPage(name: AppRoutes.splash, page: () => const SplashScreen()),
 
-    GetPage(
-      name: AppRoutes.splash,
-      page: () => const SplashScreen(),
-    ),
+    GetPage(name: AppRoutes.onboarding, page: () => const OnboardingScreen()),
 
-    GetPage(
-      name: AppRoutes.onboarding,
-      page: () => const OnboardingScreen(),
-    ),
+    GetPage(name: AppRoutes.login, page: () => const LoginScreen()),
 
-    GetPage(
-      name: AppRoutes.login,
-      page: () => const LoginScreen(),
-    ),
-
-    GetPage(
-      name: AppRoutes.signup,
-      page: () => const SigupScreen(),
-    ),
+    GetPage(name: AppRoutes.signup, page: () => const SigupScreen()),
 
     GetPage(
       name: AppRoutes.roleSelection,
       page: () => const ChooseRoleScreen(),
     ),
 
+    GetPage(name: AppRoutes.verification, page: () => const OtpScreen()),
+
     GetPage(
-      name: AppRoutes.verification,
-      page: () => const OtpScreen(),
+      name: AppRoutes.profileSetup,
+      page: () => const ProfileSetupScreen(),
+    ),
+
+    GetPage(
+      name: AppRoutes.locationSetup,
+      page: () => const LocationSetupScreen(),
     ),
 
     // ==================== CUSTOMER ====================
-
     GetPage(
       name: AppRoutes.customerHome,
       page: () => const CustomerHomeScreen(),
@@ -142,11 +137,7 @@ class AppPages {
     ),
 
     // ==================== FARMER ====================
-
-    GetPage(
-      name: AppRoutes.farmerHome,
-      page: () => const FarmerHomeScreen(),
-    ),
+    GetPage(name: AppRoutes.farmerHome, page: () => const FarmerHomeScreen()),
 
     GetPage(
       name: AppRoutes.farmerProducts,
@@ -163,10 +154,7 @@ class AppPages {
       page: () => const FarmerProductPreviewScreen(),
     ),
 
-    GetPage(
-      name: AppRoutes.farmerCrops,
-      page: () => const FarmerCropsScreen(),
-    ),
+    GetPage(name: AppRoutes.farmerCrops, page: () => const FarmerCropsScreen()),
 
     GetPage(
       name: AppRoutes.farmerAddCrop,
@@ -188,10 +176,7 @@ class AppPages {
       page: () => const FarmerFarmProfile(),
     ),
 
-    GetPage(
-      name: AppRoutes.farmerMyFarm,
-      page: () => const FarmerMyFarm(),
-    ),
+    GetPage(name: AppRoutes.farmerMyFarm, page: () => const FarmerMyFarm()),
 
     GetPage(
       name: AppRoutes.farmerOrders,
