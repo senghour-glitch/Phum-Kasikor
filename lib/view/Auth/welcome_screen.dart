@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:phum_kasikor/color/color.dart';
+import 'package:phum_kasikor/controllers/auth/login_controller.dart';
 import 'package:phum_kasikor/view/Auth/login_screen.dart';
 import 'package:phum_kasikor/view/Auth/sigup_screen.dart';
 import 'package:phum_kasikor/view/Customer/customer_home_screen.dart';
@@ -11,6 +12,7 @@ class WelcomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    final controller = Get.put(LoginController());
 
     return Scaffold(
       backgroundColor: const Color(0xFFFAF9F5),
@@ -38,7 +40,7 @@ class WelcomeScreen extends StatelessWidget {
                       borderRadius: BorderRadius.circular(22),
 
                       child: Image.asset(
-                        'assets/ស្វាយចន្ទី.jpg',
+                        'assets/cashew.jpg',
                         fit: BoxFit.cover,
 
                         errorBuilder: (context, error, stackTrace) {
@@ -93,7 +95,7 @@ class WelcomeScreen extends StatelessWidget {
                   height: 50,
                   child: ElevatedButton(
                     onPressed: () {
-                      Get.to(()=> LoginScreen());
+                      Get.to(() => LoginScreen());
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppColors.primary,
@@ -165,35 +167,66 @@ class WelcomeScreen extends StatelessWidget {
                 ),
 
                 const SizedBox(height: 12),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    //phone_number
-                    _socialImageButton(
-                      image: 'assets/phone_number.jpg',
-                      onTap: () {},
-                    ),
-                    SizedBox(width: 14),
+                Obx(
+                  () => controller.isLoading.value
+                      ? const Padding(
+                          padding: EdgeInsets.symmetric(vertical: 16.0),
+                          child: CircularProgressIndicator(),
+                        )
+                      : Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            // Facebook
+                            _socialImageButton(
+                              image: 'assets/facebook.jpg',
+                              onTap: () {
+                                controller.signInWithFacebook();
+                              },
+                            ),
+                            SizedBox(width: 14),
 
-                    // Facebook
-                    _socialImageButton(
-                      image: 'assets/facebook.jpg',
-                      onTap: () {},
-                    ),
-                    SizedBox(width: 14),
-
-                    // Google
-                    _socialImageButton(
-                      image: 'assets/google.jpg',
-                      onTap: () {},
-                    ),
-                    SizedBox(width: 14),
-                  ],
+                            // Google
+                            _socialImageButton(
+                              image: 'assets/google.jpg',
+                              onTap: () {
+                                controller.signInWithGoogle();
+                              },
+                            ),
+                            SizedBox(width: 14),
+                          ],
+                        ),
+                ),
+                // Display error messages
+                Obx(
+                  () => controller.errorMessage.value != null
+                      ? Padding(
+                          padding: const EdgeInsets.only(top: 12.0),
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 12,
+                              vertical: 8,
+                            ),
+                            decoration: BoxDecoration(
+                              color: Colors.red.shade50,
+                              borderRadius: BorderRadius.circular(8),
+                              border: Border.all(color: Colors.red.shade300),
+                            ),
+                            child: Text(
+                              controller.errorMessage.value!,
+                              style: TextStyle(
+                                color: Colors.red.shade900,
+                                fontSize: 12,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        )
+                      : const SizedBox.shrink(),
                 ),
                 const SizedBox(height: 16),
                 TextButton(
                   onPressed: () {
-                    Get.to(()=> CustomerHomeScreen());
+                    Get.to(() => CustomerHomeScreen());
                   },
 
                   style: TextButton.styleFrom(

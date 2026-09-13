@@ -11,7 +11,19 @@ import 'package:phum_kasikor/view/Auth/choose_role_screen.dart';
 class LoginController extends GetxController {
   final _authRepository = AuthRepository();
   final _firebaseAuth = FirebaseAuth.instance;
-  final _googleSignIn = GoogleSignIn();
+
+  late final GoogleSignIn _googleSignIn;
+
+  @override
+  void onInit() {
+    super.onInit();
+    // Initialize Google Sign-In with serverClientId for backend communication
+    _googleSignIn = GoogleSignIn(
+      serverClientId:
+          '392917185692-1olantat1oah94rnq10cjjt80vk4f3qm.apps.googleusercontent.com',
+      scopes: ['email', 'profile'],
+    );
+  }
 
   final identifierController = TextEditingController();
   final passwordController = TextEditingController();
@@ -31,7 +43,10 @@ class LoginController extends GetxController {
     isLoading.value = true;
     errorMessage.value = null;
 
-    final response = await _authRepository.login(identifier: identifier, password: password);
+    final response = await _authRepository.login(
+      identifier: identifier,
+      password: password,
+    );
 
     isLoading.value = false;
 
@@ -65,6 +80,9 @@ class LoginController extends GetxController {
     errorMessage.value = null;
 
     try {
+      // Sign out first to ensure fresh login
+      await _googleSignIn.signOut();
+
       final googleUser = await _googleSignIn.signIn();
       if (googleUser == null) {
         // User cancelled the picker.
@@ -73,18 +91,37 @@ class LoginController extends GetxController {
       }
 
       final googleAuth = await googleUser.authentication;
+
+      // Ensure we have both tokens
+      if (googleAuth.accessToken == null || googleAuth.idToken == null) {
+        isLoading.value = false;
+        errorMessage.value = 'Failed to get authentication tokens from Google.';
+        return;
+      }
+
       final credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth.accessToken,
-        idToken: googleAuth.idToken,
+        accessToken: googleAuth.accessToken!,
+        idToken: googleAuth.idToken!,
       );
 
-      final userCredential = await _firebaseAuth.signInWithCredential(credential);
-      final idToken = await userCredential.user!.getIdToken();
+      final userCredential = await _firebaseAuth.signInWithCredential(
+        credential,
+      );
 
-      await _handleFirebaseLogin(idToken!);
+      // Get fresh ID token from Firebase
+      final idToken = await userCredential.user?.getIdToken();
+
+      if (idToken == null) {
+        isLoading.value = false;
+        errorMessage.value = 'Failed to get Firebase ID token.';
+        return;
+      }
+
+      await _handleFirebaseLogin(idToken);
     } catch (e) {
       isLoading.value = false;
-      errorMessage.value = 'Google sign-in failed. Please try again.';
+      print('Google Sign-In Error: $e');
+      errorMessage.value = 'Google sign-in failed: ${e.toString()}';
     }
   }
 
@@ -104,42 +141,78 @@ class LoginController extends GetxController {
         return;
       }
 
-      final accessToken = result.accessToken!.tokenString;
+      final accessToken = result.accessToken?.tokenString;
+
+      if (accessToken == null) {
+        isLoading.value = false;
+        errorMessage.value = 'Failed to get Facebook access token.';
+        return;
+      }
+
       final credential = FacebookAuthProvider.credential(accessToken);
 
-      final userCredential = await _firebaseAuth.signInWithCredential(credential);
-      final idToken = await userCredential.user!.getIdToken();
+      final userCredential = await _firebaseAuth.signInWithCredential(
+        credential,
+      );
 
-      await _handleFirebaseLogin(idToken!);
+      // Get fresh ID token from Firebase
+      final idToken = await userCredential.user?.getIdToken();
+
+      if (idToken == null) {
+        isLoading.value = false;
+        errorMessage.value = 'Failed to get Firebase ID token.';
+        return;
+      }
+
+      await _handleFirebaseLogin(idToken);
     } catch (e) {
       isLoading.value = false;
-      errorMessage.value = 'Facebook sign-in failed. Please try again.';
+      print('Facebook Sign-In Error: $e');
+      errorMessage.value = 'Facebook sign-in failed: ${e.toString()}';
     }
   }
 
   Future<void> _handleFirebaseLogin(String idToken) async {
-    final response = await _authRepository.firebaseLogin(idToken: idToken);
+    try {
+      final response = await _authRepository.firebaseLogin(idToken: idToken);
 
-    isLoading.value = false;
+      isLoading.value = false;
 
-    if (!response.success) {
-      errorMessage.value = response.message;
-      return;
-    }
+      if (!response.success) {
+        errorMessage.value =
+            response.message ?? 'Authentication failed. Please try again.';
+        return;
+      }
 
-    final isNew = response.data!['isNew'] as bool;
+      final data = response.data;
+      if (data == null) {
+        errorMessage.value = 'No response data from server.';
+        return;
+      }
 
-    if (isNew) {
-      Get.to(() => const ChooseRoleScreen());
-      return;
-    }
+      final isNew = data['isNew'] as bool? ?? false;
 
-    final user = response.data!['user'];
-    if (user.hasRole) {
-      await TokenStorage.saveRole(user.role);
-      _goHome(user.role);
-    } else {
-      Get.to(() => const ChooseRoleScreen());
+      if (isNew) {
+        Get.to(() => const ChooseRoleScreen());
+        return;
+      }
+
+      final user = data['user'];
+      if (user == null) {
+        errorMessage.value = 'Failed to load user data.';
+        return;
+      }
+
+      if (user.hasRole) {
+        await TokenStorage.saveRole(user.role);
+        _goHome(user.role);
+      } else {
+        Get.to(() => const ChooseRoleScreen());
+      }
+    } catch (e) {
+      isLoading.value = false;
+      print('Firebase Login Error: $e');
+      errorMessage.value = 'Login failed: ${e.toString()}';
     }
   }
 
