@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../models/verification_model.dart';
+import '../../model/verification_model.dart';
 import '../../repositories/auth/auth_repository.dart';
 import '../../view/Auth/choose_role_screen.dart';
 

@@ -11,7 +11,7 @@ import 'package:phum_kasikor/view/Auth/choose_role_screen.dart';
 class LoginController extends GetxController {
   final _authRepository = AuthRepository();
   final _firebaseAuth = FirebaseAuth.instance;
-  final _googleSignIn = GoogleSignIn();
+  final _googleSignIn = GoogleSignIn.instance;
 
   final identifierController = TextEditingController();
   final passwordController = TextEditingController();
@@ -65,14 +65,17 @@ class LoginController extends GetxController {
     errorMessage.value = null;
 
     try {
-      final googleUser = await _googleSignIn.signIn();
+      await _googleSignIn.initialize(
+        serverClientId: '392917185692-9f1cf587ba22aea2e16959.apps.googleusercontent.com',
+      );
+      final googleUser = await _googleSignIn.authenticate();
       if (googleUser == null) {
         // User cancelled the picker.
         isLoading.value = false;
         return;
       }
 
-      final googleAuth = await googleUser.authentication;
+      final googleAuth = googleUser.authentication;
       final credential = GoogleAuthProvider.credential(
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,

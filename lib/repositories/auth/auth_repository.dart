@@ -2,7 +2,7 @@ import '../../core/network/api_client.dart';
 import '../../core/network/api_exception.dart';
 import '../../core/network/api_response.dart';
 import '../../core/storage/token_storage.dart';
-import '../../models/user_model.dart';
+import '../../model/user_model.dart';
 
 class AuthRepository {
   Future<ApiResponse<Map<String, dynamic>>> register({

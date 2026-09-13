@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-<<<<<<< HEAD
-=======
 import '../../widgets/auth/auth_header.dart';
 import 'onboarding.dart';
->>>>>>> 29f5c6a (Update customer features)
 import 'package:phum_kasikor/color/color.dart';
 import 'package:phum_kasikor/view/Auth/onboarding_screen.dart';
 
@@ -93,8 +90,6 @@ class _SplashScreenState extends State<SplashScreen> {
                   fontSize: 12,
                 ),
               ),
-<<<<<<< HEAD
-=======
               const SizedBox(height: 12),
               const Text(
                 'ភូមិកសិករ',
@@ -125,7 +120,6 @@ class _SplashScreenState extends State<SplashScreen> {
                   style: TextStyle(color: Colors.white70),
                 ),
               ),
->>>>>>> 29f5c6a (Update customer features)
             ],
           ),
         ),

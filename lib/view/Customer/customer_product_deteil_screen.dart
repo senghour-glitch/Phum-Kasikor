@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:phum_kasikor/color/color.dart';
-import 'package:phum_kasikor/controllers/customer/product_detail_controller.dart';
 import 'package:phum_kasikor/model/customer_product_detail_model.dart';
+import 'package:phum_kasikor/controllers/customer/product_detail_controller.dart';
 
 class CustomerProductDeteilScreen extends StatelessWidget {
   const CustomerProductDeteilScreen({super.key});
@@ -466,7 +466,7 @@ class _RicePainter extends CustomPainter {
         canvas.translate(x, y);
         canvas.rotate(((i * 17 + row * 13) % 22 - 11) * .035);
         canvas.drawOval(
-           Rect.fromCenter(center: Offset.zero, width: 15, height: 5),
+          Rect.fromCenter(center: Offset.zero, width: 15, height: 5),
           grain,
         );
         canvas.restore();

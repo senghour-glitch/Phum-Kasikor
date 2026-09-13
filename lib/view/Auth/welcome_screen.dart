@@ -10,7 +10,6 @@ class WelcomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-<<<<<<< HEAD
     final size = MediaQuery.of(context).size;
 
     return Scaffold(
@@ -217,34 +216,6 @@ class WelcomeScreen extends StatelessWidget {
                 SizedBox(height: size.height * 0.025),
               ],
             ),
-=======
-    return AuthPage(
-      child: Column(
-        children: [
-          const Spacer(),
-          const AuthIllustration(
-            icon: Icons.handshake_rounded,
-            color: Color(0xFFFFF5D7),
-          ),
-          const SizedBox(height: 24),
-          const AuthBrand(compact: true),
-          const SizedBox(height: 14),
-          const AuthTitle(
-            center: true,
-            title: 'Welcome to Phum Kasikor',
-            subtitle: 'The local marketplace for farmers and customers.',
-          ),
-          const Spacer(),
-          FarmButton(
-            label: 'Log in',
-            onPressed: () => Get.toNamed('/login'),
-          ),
-          const SizedBox(height: 10),
-          FarmButton(
-            label: 'Create an account',
-            outlined: true,
-            onPressed: () => Get.toNamed('/sign-up'),
->>>>>>> 29f5c6a (Update customer features)
           ),
         ),
       ),

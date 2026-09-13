@@ -4,7 +4,7 @@ import 'package:phum_kasikor/model/product_model.dart';
 
 class CustomerProductDetailController extends GetxController {
   CustomerProductDetailController({CustomerProductDetailModel? detail})
-      : detail = (detail ?? _sampleDetail).obs;
+    : detail = (detail ?? _sampleDetail).obs;
 
   final Rx<CustomerProductDetailModel> detail;
   final quantity = 1.obs;
@@ -32,7 +32,7 @@ class CustomerProductDetailController extends GetxController {
     );
   }
 
-  static const _sampleDetail = CustomerProductDetailModel(
+  static final _sampleDetail = CustomerProductDetailModel(
     product: ProductModel(
       id: 'jasmine-rice-1',
       farmId: 'sokha-organic-farm',
@@ -40,7 +40,8 @@ class CustomerProductDetailController extends GetxController {
       price: 2.50,
       unit: 'kg',
       stock: 125,
-      description: 'Premium organic Jasmine Rice harvested straight from fertile floodplains of Kandal. Carefully grown using ancestral organic pesticide-free methods. High fragrance and beautifully soft texture when cooked.',
+      description:
+          'Premium organic Jasmine Rice harvested straight from fertile floodplains of Kandal. Carefully grown using ancestral organic pesticide-free methods. High fragrance and beautifully soft texture when cooked.',
     ),
     farmName: "Sokha's Organic Farm",
     rating: 4.8,
@@ -50,8 +51,18 @@ class CustomerProductDetailController extends GetxController {
     harvest: 'Jul 2024',
     minimumOrder: 1,
     reviews: [
-      ProductReviewModel(name: 'Sopheap N.', rating: 5, comment: 'The fragrance is incredibly fresh, soft texture is absolutely perfect when cooked! Will buy weekly.'),
-      ProductReviewModel(name: 'Kantha S.', rating: 4, comment: 'Very authentic Phka Rumduol rice. Extremely clean and fast delivery from Kandal.'),
+      ProductReviewModel(
+        name: 'Sopheap N.',
+        rating: 5,
+        comment:
+            'The fragrance is incredibly fresh, soft texture is absolutely perfect when cooked! Will buy weekly.',
+      ),
+      ProductReviewModel(
+        name: 'Kantha S.',
+        rating: 4,
+        comment:
+            'Very authentic Phka Rumduol rice. Extremely clean and fast delivery from Kandal.',
+      ),
     ],
   );
 }

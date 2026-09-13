@@ -48,7 +48,7 @@ class CustomerProfileScreen extends StatelessWidget {
             _MenuTile(
               icon: Icons.auto_awesome_rounded,
               iconColor: AppColors.primary,
-              title: 'AI Chat Assistant ✨',
+              title: 'AI Chat Assistant ',
               titleColor: AppColors.primary,
               onTap: () => _showComingSoon(context, 'AI Chat Assistant'),
             ),

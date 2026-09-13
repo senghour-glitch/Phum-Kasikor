@@ -97,14 +97,7 @@ class LoginScreen extends StatelessWidget {
             const SizedBox(height: 18),
             Center(
               child: TextButton(
-<<<<<<< HEAD
-                onPressed: () => Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (_) => const SigupScreen()),
-                ),
-=======
-                onPressed: () => Get.offNamed('/sign-up'),
->>>>>>> 29f5c6a (Update customer features)
+                onPressed: () => Get.offNamed(AppRoutes.signup),
                 child: const Text(
                   "Don't have an account? Sign up",
                   style: TextStyle(color: kFarmGreen),

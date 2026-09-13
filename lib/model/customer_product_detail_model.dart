@@ -1,4 +1,5 @@
-import 'package:phum_kasikor/model/product_model.dart';
+
+import 'product_model.dart';
 
 class CustomerProductDetailModel {
   const CustomerProductDetailModel({
