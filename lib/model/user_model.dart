@@ -1,60 +1,31 @@
-class UserModel {
-  final int id;
-  final String name;
-  final String? displayName;
-  final String? bio;
-  final String? email;
-  final String? phone;
-  final String? role; // null until choose-role step is completed
-  final String? profileImage;
-  final String? location;
-  final double? latitude;
-  final double? longitude;
-  final String? gender;
-  final DateTime? dateOfBirth;
-  final DateTime? emailVerifiedAt;
-  final DateTime? phoneVerifiedAt;
+enum UserRole { farmer, customer }
 
-  UserModel({
+class UserModel {
+  const UserModel({
     required this.id,
     required this.name,
-    this.displayName,
-    this.bio,
+    required this.phone,
+    required this.role,
     this.email,
-    this.phone,
-    this.role,
-    this.profileImage,
-    this.location,
-    this.latitude,
-    this.longitude,
-    this.gender,
-    this.dateOfBirth,
-    this.emailVerifiedAt,
-    this.phoneVerifiedAt,
+    this.imageUrl,
   });
-
-  bool get hasRole => role != null;
-  bool get isFarmer => role == 'farmer';
-  bool get isCustomer => role == 'customer';
-  bool get isVerified => emailVerifiedAt != null || phoneVerifiedAt != null;
-
-  factory UserModel.fromJson(Map<String, dynamic> json) {
-    return UserModel(
-      id: json['id'],
-      name: json['name'] ?? '',
-      displayName: json['display_name'],
-      bio: json['bio'],
-      email: json['email'],
-      phone: json['phone'],
-      role: json['role'],
-      profileImage: json['profile_image'],
-      location: json['location'],
-      latitude: json['latitude'] != null ? double.tryParse(json['latitude'].toString()) : null,
-      longitude: json['longitude'] != null ? double.tryParse(json['longitude'].toString()) : null,
-      gender: json['gender'],
-      dateOfBirth: json['date_of_birth'] != null ? DateTime.tryParse(json['date_of_birth']) : null,
-      emailVerifiedAt: json['email_verified_at'] != null ? DateTime.tryParse(json['email_verified_at']) : null,
-      phoneVerifiedAt: json['phone_verified_at'] != null ? DateTime.tryParse(json['phone_verified_at']) : null,
-    );
-  }
+  final String id, name, phone;
+  final UserRole role;
+  final String? email, imageUrl;
+  factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
+    id: json['id'] as String,
+    name: json['name'] as String,
+    phone: json['phone'] as String,
+    role: UserRole.values.byName(json['role'] as String),
+    email: json['email'] as String?,
+    imageUrl: json['imageUrl'] as String?,
+  );
+  Map<String, dynamic> toJson() => {
+    'id': id,
+    'name': name,
+    'phone': phone,
+    'role': role.name,
+    'email': email,
+    'imageUrl': imageUrl,
+  };
 }

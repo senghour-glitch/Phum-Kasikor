@@ -25,7 +25,6 @@ class LocationSetupController extends GetxController {
   }
 
   void useCurrentLocation() {
-    // TODO: replace with a real geolocator call - this currently just
     // fills in the same placeholder values shown by default.
     selectedProvince.value = 'Phnom Penh';
     selectedDistrict.value = 'Chroy Chang...';

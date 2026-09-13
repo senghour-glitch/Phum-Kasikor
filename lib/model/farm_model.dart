@@ -1,65 +1,36 @@
 class FarmModel {
-  final String id;
-  final String name;
-  final String ownerId;
-  final String? imageUrl;
-  final String address;
-  final double? latitude;
-  final double? longitude;
-  final String? description;
-
-  FarmModel({
+  const FarmModel({
     required this.id,
+    required this.farmerId,
     required this.name,
-    required this.ownerId,
-    this.imageUrl,
     required this.address,
-    this.latitude,
-    this.longitude,
-    this.description,
+    this.description = '',
+    this.imageUrl,
+    this.rating = 0,
+    this.reviewCount = 0,
   });
-
-  FarmModel copyWith({
-    String? id,
-    String? name,
-    String? ownerId,
-    String? imageUrl,
-    String? address,
-    double? latitude,
-    double? longitude,
-    String? description,
-  }) {
-    return FarmModel(
-      id: id ?? this.id,
-      name: name ?? this.name,
-      ownerId: ownerId ?? this.ownerId,
-      imageUrl: imageUrl ?? this.imageUrl,
-      address: address ?? this.address,
-      latitude: latitude ?? this.latitude,
-      longitude: longitude ?? this.longitude,
-      description: description ?? this.description,
-    );
-  }
-
+  final String id, farmerId, name, address, description;
+  final String? imageUrl;
+  final double rating;
+  final int reviewCount;
+  factory FarmModel.fromJson(Map<String, dynamic> json) => FarmModel(
+    id: json['id'] as String,
+    farmerId: json['farmerId'] as String,
+    name: json['name'] as String,
+    address: json['address'] as String,
+    description: json['description'] as String? ?? '',
+    imageUrl: json['imageUrl'] as String?,
+    rating: (json['rating'] as num?)?.toDouble() ?? 0,
+    reviewCount: json['reviewCount'] as int? ?? 0,
+  );
   Map<String, dynamic> toJson() => {
     'id': id,
+    'farmerId': farmerId,
     'name': name,
-    'owner_id': ownerId,
-    'image_url': imageUrl,
     'address': address,
-    'latitude': latitude,
-    'longitude': longitude,
     'description': description,
+    'imageUrl': imageUrl,
+    'rating': rating,
+    'reviewCount': reviewCount,
   };
-
-  factory FarmModel.fromJson(Map<String, dynamic> json) => FarmModel(
-    id: json['id'] as String? ?? '',
-    name: json['name'] as String? ?? '',
-    ownerId: json['owner_id'] as String? ?? '',
-    imageUrl: json['image_url'] as String?,
-    address: json['address'] as String? ?? '',
-    latitude: (json['latitude'] as num?)?.toDouble(),
-    longitude: (json['longitude'] as num?)?.toDouble(),
-    description: json['description'] as String?,
-  );
 }

@@ -33,7 +33,6 @@ import 'package:phum_kasikor/view/Farmer/farmer_crops_screen.dart';
 import 'package:phum_kasikor/view/Farmer/farmer_earnings_screen.dart';
 import 'package:phum_kasikor/view/Farmer/farmer_farm_profile.dart';
 import 'package:phum_kasikor/view/Farmer/farmer_home_screen.dart';
-import 'package:phum_kasikor/view/Farmer/farmer_my_farm.dart';
 import 'package:phum_kasikor/view/Farmer/farmer_order_detail_screen.dart';
 import 'package:phum_kasikor/view/Farmer/farmer_orders_screen.dart';
 import 'package:phum_kasikor/view/Farmer/farmer_product_preview_screen.dart';
@@ -151,7 +150,7 @@ class AppPages {
 
     GetPage(
       name: AppRoutes.farmerProductPreview,
-      page: () => const FarmerProductPreviewScreen(),
+      page: () => const FarmerProductPreviewScreen(productId: '',),
     ),
 
     GetPage(name: AppRoutes.farmerCrops, page: () => const FarmerCropsScreen()),
@@ -163,12 +162,12 @@ class AppPages {
 
     GetPage(
       name: AppRoutes.farmerCropDetail,
-      page: () => const FarmerCropDetailScreen(),
+      page: () => const FarmerCropDetailScreen(cropId: '',),
     ),
 
     GetPage(
       name: AppRoutes.farmerEarnings,
-      page: () => const FarmerEarningsScreen(),
+      page: () => FarmerEarningsScreen(),
     ),
 
     GetPage(
@@ -176,7 +175,7 @@ class AppPages {
       page: () => const FarmerFarmProfile(),
     ),
 
-    GetPage(name: AppRoutes.farmerMyFarm, page: () => const FarmerMyFarm()),
+    GetPage(name: AppRoutes.farmerMyFarm, page: () => const FarmerAddCropScreen()),
 
     GetPage(
       name: AppRoutes.farmerOrders,
@@ -185,7 +184,7 @@ class AppPages {
 
     GetPage(
       name: AppRoutes.farmerOrderDetail,
-      page: () => const FarmerOrderDetailScreen(),
+      page: () => const FarmerOrderDetailScreen(orderId: '',),
     ),
 
     GetPage(

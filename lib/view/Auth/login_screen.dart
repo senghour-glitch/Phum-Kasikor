@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:phum_kasikor/core/routes/app_routes.dart';
 import 'package:phum_kasikor/widgets/auth/auth_header.dart';
 import 'package:phum_kasikor/controllers/auth/login_controller.dart';
-import 'sigup_screen.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});

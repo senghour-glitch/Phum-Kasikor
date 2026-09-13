@@ -160,7 +160,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             const SizedBox(height: 20),
             Padding(
               padding: const EdgeInsets.fromLTRB(24, 0, 24, 24),
-              child: Container(
+              child: SizedBox(
                 width: double.infinity,
                 height: 54,
                 child: ElevatedButton(

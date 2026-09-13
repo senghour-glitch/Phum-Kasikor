@@ -85,7 +85,6 @@ class SignupController extends GetxController {
         colorText: Colors.red.shade900,
         duration: const Duration(seconds: 5),
       );
-      print("API Error: $e");
     } finally {
       // ALWAYS runs at the end, guaranteeing the button unfreezes
       isSubmitting.value = false;

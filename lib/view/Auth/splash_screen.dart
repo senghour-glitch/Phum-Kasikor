@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../widgets/auth/auth_header.dart';
-import 'onboarding.dart';
 import 'package:phum_kasikor/color/color.dart';
 import 'package:phum_kasikor/view/Auth/onboarding_screen.dart';
 

@@ -100,7 +100,6 @@ class VerificationController extends GetxController {
   }
 
   void resend() {
-    // TODO: wire to a resend-code endpoint once one exists on the backend.
     _startResendTimer();
     Get.snackbar('Code sent', 'A new code has been sent (once resend is wired up backend-side).');
   }

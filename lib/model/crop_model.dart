@@ -1,53 +1,35 @@
 class CropModel {
-  final String id;
-  final String name;
-  final String variety;
-  final String? imageUrl;
-  final String description;
-  final String season;
-
-  CropModel({
+  const CropModel({
     required this.id,
+    required this.farmId,
     required this.name,
-    required this.variety,
+    required this.plantedAt,
+    this.expectedHarvestAt,
+    this.status = 'Growing',
     this.imageUrl,
-    required this.description,
-    required this.season,
   });
-
-  CropModel copyWith({
-    String? id,
-    String? name,
-    String? variety,
-    String? imageUrl,
-    String? description,
-    String? season,
-  }) {
-    return CropModel(
-      id: id ?? this.id,
-      name: name ?? this.name,
-      variety: variety ?? this.variety,
-      imageUrl: imageUrl ?? this.imageUrl,
-      description: description ?? this.description,
-      season: season ?? this.season,
-    );
-  }
-
+  final String id, farmId, name, status;
+  final DateTime plantedAt;
+  final DateTime? expectedHarvestAt;
+  final String? imageUrl;
+  factory CropModel.fromJson(Map<String, dynamic> json) => CropModel(
+    id: json['id'] as String,
+    farmId: json['farmId'] as String,
+    name: json['name'] as String,
+    plantedAt: DateTime.parse(json['plantedAt'] as String),
+    expectedHarvestAt: json['expectedHarvestAt'] == null
+        ? null
+        : DateTime.parse(json['expectedHarvestAt'] as String),
+    status: json['status'] as String? ?? 'Growing',
+    imageUrl: json['imageUrl'] as String?,
+  );
   Map<String, dynamic> toJson() => {
     'id': id,
+    'farmId': farmId,
     'name': name,
-    'variety': variety,
-    'image_url': imageUrl,
-    'description': description,
-    'season': season,
+    'plantedAt': plantedAt.toIso8601String(),
+    'expectedHarvestAt': expectedHarvestAt?.toIso8601String(),
+    'status': status,
+    'imageUrl': imageUrl,
   };
-
-  factory CropModel.fromJson(Map<String, dynamic> json) => CropModel(
-    id: json['id'] as String? ?? '',
-    name: json['name'] as String? ?? '',
-    variety: json['variety'] as String? ?? '',
-    imageUrl: json['image_url'] as String?,
-    description: json['description'] as String? ?? '',
-    season: json['season'] as String? ?? '',
-  );
 }

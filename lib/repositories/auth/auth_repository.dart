@@ -14,8 +14,8 @@ class AuthRepository {
     try {
       final json = await ApiClient.post('register', {
         'name': name,
-        if (email != null) 'email': email,
-        if (phone != null) 'phone': phone,
+        'email': ?email,
+        'phone': ?phone,
         'password': password,
       });
 
@@ -86,13 +86,13 @@ class AuthRepository {
   }) async {
     try {
       final json = await ApiClient.put('profile-setup', {
-        if (name != null) 'name': name,
-        if (displayName != null) 'display_name': displayName,
-        if (bio != null) 'bio': bio,
-        if (gender != null) 'gender': gender,
+        'name': ?name,
+        'display_name': ?displayName,
+        'bio': ?bio,
+        'gender': ?gender,
         if (dateOfBirth != null) 'date_of_birth': dateOfBirth.toIso8601String().split('T').first,
-        if (profileImage != null) 'profile_image': profileImage,
-        if (farmName != null) 'farm_name': farmName,
+        'profile_image': ?profileImage,
+        'farm_name': ?farmName,
       });
       return ApiResponse.success(UserModel.fromJson(json));
     } on ApiException catch (e) {
@@ -110,10 +110,10 @@ class AuthRepository {
     try {
       final json = await ApiClient.put('location-setup', {
         'province': province,
-        if (district != null) 'district': district,
-        if (commune != null) 'commune': commune,
-        if (latitude != null) 'latitude': latitude,
-        if (longitude != null) 'longitude': longitude,
+        'district': ?district,
+        'commune': ?commune,
+        'latitude': ?latitude,
+        'longitude': ?longitude,
       });
       return ApiResponse.success(UserModel.fromJson(json));
     } on ApiException catch (e) {
