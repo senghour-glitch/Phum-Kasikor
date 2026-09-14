@@ -22,6 +22,7 @@ class ChooseRoleScreen extends StatelessWidget {
             subtitle: 'How will you use Phum Kasikor?',
           ),
           const SizedBox(height: 28),
+<<<<<<< HEAD
           Obx(
             () => _RoleCard(
               selected: auth.selectedRole.value == UserRole.farmer,
@@ -59,6 +60,34 @@ class ChooseRoleScreen extends StatelessWidget {
               onPressed: auth.isLoading.value ? null : auth.submitRole,
             ),
           ),
+=======
+          Obx(() => _RoleCard(
+            selected: auth.selectedRole.value == UserRole.farmer,
+            icon: Icons.agriculture_rounded,
+            title: "I'm a Farmer",
+            description: 'Sell fresh produce directly to customers.',
+            onTap: () => auth.selectedRole.value = UserRole.farmer,
+          )),
+          const SizedBox(height: 14),
+          Obx(() => _RoleCard(
+            selected: auth.selectedRole.value == UserRole.customer,
+            icon: Icons.shopping_basket_rounded,
+            title: "I'm a Customer",
+            description: 'Discover and buy fresh local produce.',
+            onTap: () => auth.selectedRole.value = UserRole.customer,
+          )),
+          Obx(() => auth.errorMessage.value != null
+              ? Padding(
+                  padding: const EdgeInsets.only(top: 12),
+                  child: Text(auth.errorMessage.value!, style: const TextStyle(color: Colors.red, fontSize: 12)),
+                )
+              : const SizedBox.shrink()),
+          const Spacer(),
+          Obx(() => FarmButton(
+            label: auth.isLoading.value ? 'Saving...' : 'Continue',
+            onPressed: auth.isLoading.value ? null : auth.submitRole,
+          )),
+>>>>>>> 1b480532b338b969c9b4e8c35e896484d9257858
           const SizedBox(height: 28),
         ],
       ),
