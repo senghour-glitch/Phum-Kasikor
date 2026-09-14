@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../color/color.dart';
-export '../../color/color.dart';
+import 'package:phum_kasikor/color/color.dart';
+export 'package:phum_kasikor/color/color.dart';
 
 const kFarmGreen = AppColors.primary;
 const kFarmInk = AppColors.textPrimary;

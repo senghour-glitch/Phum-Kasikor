@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:phum_kasikor/widgets/auth/auth_header.dart';
-import 'package:phum_kasikor/controllers/auth/login_controller.dart';
+import '../../controllers/auth/auth_controller.dart';
+import '../../widgets/auth/auth_header.dart';
+import 'otp_screen.dart';
 import 'sigup_screen.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -9,8 +10,7 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(LoginController());
-
+    final auth = Get.find<AuthController>();
     return AuthPage(
       showBack: true,
       child: SingleChildScrollView(
@@ -30,14 +30,14 @@ class LoginScreen extends StatelessWidget {
               hint: '+855 12 345 678',
               prefixIcon: Icons.phone_outlined,
               keyboardType: TextInputType.phone,
-              controller: controller.identifierController,
+              controller: auth.loginPhoneController,
             ),
             FarmTextField(
               label: 'Password',
               hint: '••••••••',
               prefixIcon: Icons.lock_outline,
               obscureText: true,
-              controller: controller.passwordController,
+              controller: auth.loginPasswordController,
             ),
             Align(
               alignment: Alignment.centerRight,
@@ -49,16 +49,16 @@ class LoginScreen extends StatelessWidget {
                 ),
               ),
             ),
-            Obx(() => controller.errorMessage.value != null
+            Obx(() => auth.errorMessage.value != null
                 ? Padding(
                     padding: const EdgeInsets.only(bottom: 8),
-                    child: Text(controller.errorMessage.value!, style: const TextStyle(color: Colors.red, fontSize: 12)),
+                    child: Text(auth.errorMessage.value!, style: const TextStyle(color: Colors.red, fontSize: 12)),
                   )
                 : const SizedBox.shrink()),
             const SizedBox(height: 12),
             Obx(() => FarmButton(
-              label: controller.isLoading.value ? 'Logging in...' : 'Log in',
-              onPressed: controller.isLoading.value ? null : controller.login,
+              label: auth.isLoading.value ? 'Logging in...' : 'Log in',
+              onPressed: auth.isLoading.value ? null : auth.beginLogin,
             )),
             const SizedBox(height: 22),
             const Row(
@@ -81,15 +81,7 @@ class LoginScreen extends StatelessWidget {
                   child: FarmButton(
                     label: 'Google',
                     outlined: true,
-                    onPressed: controller.isLoading.value ? null : controller.signInWithGoogle,
-                  ),
-                ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: FarmButton(
-                    label: 'Facebook',
-                    outlined: true,
-                    onPressed: controller.isLoading.value ? null : controller.signInWithFacebook,
+                    onPressed: auth.isLoading.value ? null : auth.signInWithGoogle,
                   ),
                 ),
               ],
@@ -97,10 +89,7 @@ class LoginScreen extends StatelessWidget {
             const SizedBox(height: 18),
             Center(
               child: TextButton(
-                onPressed: () => Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (_) => const SigupScreen()),
-                ),
+                onPressed: () => Get.offNamed('/sign-up'),
                 child: const Text(
                   "Don't have an account? Sign up",
                   style: TextStyle(color: kFarmGreen),

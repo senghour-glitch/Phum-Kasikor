@@ -2,7 +2,7 @@ import '../../core/network/api_client.dart';
 import '../../core/network/api_exception.dart';
 import '../../core/network/api_response.dart';
 import '../../core/storage/token_storage.dart';
-import '../../models/user_model.dart';
+import '../../model/user_model.dart';
 
 class AuthRepository {
   Future<ApiResponse<Map<String, dynamic>>> register({
@@ -14,8 +14,8 @@ class AuthRepository {
     try {
       final json = await ApiClient.post('auth/register', {
         'name': name,
-        if (email != null) 'email': email,
-        if (phone != null) 'phone': phone,
+        'email': ?email,
+        'phone': ?phone,
         'password': password,
       });
 
@@ -127,10 +127,10 @@ class AuthRepository {
     try {
       final json = await ApiClient.put('profile/location', {
         'province': province,
-        if (district != null) 'district': district,
-        if (commune != null) 'commune': commune,
-        if (latitude != null) 'latitude': latitude,
-        if (longitude != null) 'longitude': longitude,
+        'district': ?district,
+        'commune': ?commune,
+        'latitude': ?latitude,
+        'longitude': ?longitude,
       });
       return ApiResponse.success(UserModel.fromJson(json));
     } on ApiException catch (e) {

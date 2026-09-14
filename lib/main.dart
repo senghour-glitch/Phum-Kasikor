@@ -1,7 +1,6 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:get/get.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:phum_kasikor/color/color.dart';
 import 'package:phum_kasikor/core/routes/app_pages.dart';
 import 'package:phum_kasikor/core/routes/app_routes.dart';

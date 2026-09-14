@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../widgets/auth/auth_header.dart';
 import 'package:phum_kasikor/color/color.dart';
 import 'package:phum_kasikor/view/Auth/onboarding_screen.dart';
 
@@ -15,9 +16,11 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     Future.delayed(const Duration(seconds: 2), () {
-      Get.off(() => const OnboardingScreen(),
-      transition: Transition.fadeIn,
-      duration: const Duration(milliseconds: 900));
+      Get.off(
+        () => const OnboardingScreen(),
+        transition: Transition.fadeIn,
+        duration: const Duration(milliseconds: 900),
+      );
     });
   }
 
@@ -84,6 +87,36 @@ class _SplashScreenState extends State<SplashScreen> {
                 style: TextStyle(
                   color: AppColors.textOnPrimary.withValues(alpha: 0.6),
                   fontSize: 12,
+                ),
+              ),
+              const SizedBox(height: 12),
+              const Text(
+                'ភូមិកសិករ',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 22,
+                  fontWeight: FontWeight.w800,
+                ),
+              ),
+              const Text(
+                'PHUM KASIKOR',
+                style: TextStyle(
+                  color: Colors.white70,
+                  fontSize: 9,
+                  letterSpacing: 1.8,
+                ),
+              ),
+              const SizedBox(height: 30),
+              const CircularProgressIndicator(
+                color: Colors.white,
+                strokeWidth: 2,
+              ),
+              const SizedBox(height: 18),
+              TextButton(
+                onPressed: () => Get.offNamed('/onboarding'),
+                child: const Text(
+                  'Tap to continue',
+                  style: TextStyle(color: Colors.white70),
                 ),
               ),
             ],
