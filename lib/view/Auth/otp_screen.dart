@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import '../../widgets/auth/auth_header.dart';
-import '../../controllers/auth/verification_controller.dart';
+import '../../controllers/auth/auth_controller.dart';
 
 class OtpScreen extends StatelessWidget {
   const OtpScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(VerificationController());
+    final auth = Get.find<AuthController>();
 
     return AuthPage(
       showBack: true,
@@ -24,8 +23,7 @@ class OtpScreen extends StatelessWidget {
           AuthTitle(
             center: true,
             title: 'OTP Verification',
-            subtitle: 'Enter the 6-digit code sent to '
-                '${controller.verification.phone ?? controller.verification.email ?? ''}',
+            subtitle: 'Enter the 6-digit code sent to ${auth.phone}',
           ),
           const SizedBox(height: 28),
           Row(
@@ -34,48 +32,45 @@ class OtpScreen extends StatelessWidget {
               6,
               (index) => SizedBox(
                 width: 42,
-                child: KeyboardListener(
-                  focusNode: FocusNode(),
-                  onKeyEvent: (event) {
-                    if (event is KeyDownEvent && event.logicalKey == LogicalKeyboardKey.backspace) {
-                      controller.onBackspacePressed(index);
+                child: TextField(
+                  controller: auth.otpControllers[index],
+                  textAlign: TextAlign.center,
+                  keyboardType: TextInputType.number,
+                  maxLength: 1,
+                  decoration: const InputDecoration(
+                    counterText: '',
+                    filled: true,
+                    fillColor: Colors.white,
+                    border: OutlineInputBorder(),
+                  ),
+                  onChanged: (value) {
+                    if (value.isNotEmpty && index < 5) {
+                      FocusScope.of(context).nextFocus();
+                    } else if (value.isEmpty && index > 0) {
+                      FocusScope.of(context).previousFocus();
                     }
                   },
-                  child: TextField(
-                    controller: controller.digitControllers[index],
-                    focusNode: controller.focusNodes[index],
-                    textAlign: TextAlign.center,
-                    keyboardType: TextInputType.number,
-                    maxLength: 1,
-                    decoration: const InputDecoration(
-                      counterText: '',
-                      filled: true,
-                      fillColor: Colors.white,
-                      border: OutlineInputBorder(),
-                    ),
-                    onChanged: (value) => controller.onDigitChanged(value, index),
-                  ),
                 ),
               ),
             ),
           ),
           const SizedBox(height: 16),
-          Obx(() => controller.errorMessage.value != null
+          Obx(() => auth.errorMessage.value != null
               ? Padding(
                   padding: const EdgeInsets.only(bottom: 8),
-                  child: Text(controller.errorMessage.value!, style: const TextStyle(color: Colors.red, fontSize: 12)),
+                  child: Text(auth.errorMessage.value!, style: const TextStyle(color: Colors.red, fontSize: 12)),
                 )
               : const SizedBox.shrink()),
-          Obx(() => controller.secondsRemaining.value > 0
+          Obx(() => auth.resendSeconds.value > 0
               ? Text(
-                  'Resend code in 00:${controller.secondsRemaining.value.toString().padLeft(2, '0')}',
+                  'Resend code in 00:${auth.resendSeconds.value.toString().padLeft(2, '0')}',
                   style: const TextStyle(color: kFarmMuted, fontSize: 12),
                 )
-              : TextButton(onPressed: controller.resend, child: const Text('Resend code'))),
+              : TextButton(onPressed: auth.resendOtp, child: const Text('Resend code'))),
           const SizedBox(height: 20),
           Obx(() => FarmButton(
-            label: controller.isVerifying.value ? 'Verifying...' : 'Verify',
-            onPressed: controller.isVerifying.value ? null : controller.verify,
+            label: auth.isLoading.value ? 'Verifying...' : 'Verify',
+            onPressed: auth.isLoading.value ? null : auth.verifyOtp,
           )),
           const Spacer(),
         ],

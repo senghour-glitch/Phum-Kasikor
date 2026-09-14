@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:phum_kasikor/controllers/auth/profile_controller.dart';
 import 'package:phum_kasikor/color/color.dart';
 
 class CustomerProfileScreen extends StatelessWidget {

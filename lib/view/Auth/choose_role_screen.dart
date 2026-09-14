@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../widgets/auth/auth_header.dart';
-import '../../controllers/auth/role_selection_controller.dart';
+import '../../controllers/auth/auth_controller.dart';
+import '../../model/user_model.dart';
 
 class ChooseRoleScreen extends StatelessWidget {
   const ChooseRoleScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(RoleSelectionController());
+    final auth = Get.find<AuthController>();
+
     return AuthPage(
       showBack: true,
       child: Column(
@@ -18,30 +20,30 @@ class ChooseRoleScreen extends StatelessWidget {
           const AuthTitle(title: 'Choose Your Role', subtitle: 'How will you use Phum Kasikor?'),
           const SizedBox(height: 28),
           Obx(() => _RoleCard(
-            selected: controller.selectedRole.value == 'farmer',
+            selected: auth.selectedRole.value == UserRole.farmer,
             icon: Icons.agriculture_rounded,
             title: "I'm a Farmer",
             description: 'Sell fresh produce directly to customers.',
-            onTap: () => controller.selectRole('farmer'),
+            onTap: () => auth.selectedRole.value = UserRole.farmer,
           )),
           const SizedBox(height: 14),
           Obx(() => _RoleCard(
-            selected: controller.selectedRole.value == 'customer',
+            selected: auth.selectedRole.value == UserRole.customer,
             icon: Icons.shopping_basket_rounded,
             title: "I'm a Customer",
             description: 'Discover and buy fresh local produce.',
-            onTap: () => controller.selectRole('customer'),
+            onTap: () => auth.selectedRole.value = UserRole.customer,
           )),
-          Obx(() => controller.errorMessage.value != null
+          Obx(() => auth.errorMessage.value != null
               ? Padding(
                   padding: const EdgeInsets.only(top: 12),
-                  child: Text(controller.errorMessage.value!, style: const TextStyle(color: Colors.red, fontSize: 12)),
+                  child: Text(auth.errorMessage.value!, style: const TextStyle(color: Colors.red, fontSize: 12)),
                 )
               : const SizedBox.shrink()),
           const Spacer(),
           Obx(() => FarmButton(
-            label: controller.isLoading.value ? 'Saving...' : 'Continue',
-            onPressed: controller.isLoading.value ? null : controller.confirmRole,
+            label: auth.isLoading.value ? 'Saving...' : 'Continue',
+            onPressed: auth.isLoading.value ? null : auth.submitRole,
           )),
           const SizedBox(height: 28),
         ],
