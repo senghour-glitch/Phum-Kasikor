@@ -47,7 +47,7 @@ subprojects {
                     )
                     .invoke(
                         compileOptions,
-                        JavaVersion.VERSION_21
+                        JavaVersion.VERSION_17
                     )
 
                 compileOptions.javaClass
@@ -57,7 +57,7 @@ subprojects {
                     )
                     .invoke(
                         compileOptions,
-                        JavaVersion.VERSION_21
+                        JavaVersion.VERSION_17
                     )
             } catch (_: Exception) {
                 // Ignore modules that do not expose Android compile options.

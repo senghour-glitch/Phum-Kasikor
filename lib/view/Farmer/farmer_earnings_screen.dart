@@ -73,49 +73,42 @@ class EarningsScreen extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(14),
-        border: Border.all(
-          color: Colors.grey.shade300,
-        ),
+        border: Border.all(color: Colors.grey.shade300),
       ),
       child: Obx(
         () => Row(
-          children: List.generate(
-            periods.length,
-            (index) {
-              final selected =
-                  controller.selectedPeriod.value == index;
+          children: List.generate(periods.length, (index) {
+            final selected = controller.selectedPeriod.value == index;
 
-              return Expanded(
-                child: GestureDetector(
-                  onTap: () {
-                    controller.changePeriod(index);
-                  },
-                  child: AnimatedContainer(
-                    duration: const Duration(milliseconds: 200),
-                    padding:
-                        const EdgeInsets.symmetric(vertical: 10),
-                    decoration: BoxDecoration(
-                      color: selected
-                          ? const Color(0xff2E7D32)
-                          : Colors.transparent,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Center(
-                      child: Text(
-                        periods[index],
-                        style: TextStyle(
-                          color: selected
-                              ? Colors.white
-                              : const Color(0xff607D8B),
-                          fontWeight: FontWeight.w600,
-                        ),
+            return Expanded(
+              child: GestureDetector(
+                onTap: () {
+                  controller.changePeriod(index);
+                },
+                child: AnimatedContainer(
+                  duration: const Duration(milliseconds: 200),
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  decoration: BoxDecoration(
+                    color: selected
+                        ? const Color(0xff2E7D32)
+                        : Colors.transparent,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Center(
+                    child: Text(
+                      periods[index],
+                      style: TextStyle(
+                        color: selected
+                            ? Colors.white
+                            : const Color(0xff607D8B),
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
                   ),
                 ),
-              );
-            },
-          ),
+              ),
+            );
+          }),
         ),
       ),
     );
@@ -133,15 +126,11 @@ class EarningsScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
-            mainAxisAlignment:
-                MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               const Text(
                 "Total Monthly Earnings",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 15,
-                ),
+                style: TextStyle(color: Colors.white, fontSize: 15),
               ),
 
               Obx(
@@ -172,33 +161,26 @@ class EarningsScreen extends StatelessWidget {
           const SizedBox(height: 20),
 
           Row(
-            mainAxisAlignment:
-                MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               const Text(
                 "ABA Account: **** 4523",
-                style: TextStyle(
-                  color: Colors.white70,
-                ),
+                style: TextStyle(color: Colors.white70),
               ),
 
               ElevatedButton(
                 onPressed: controller.withdraw,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.white,
-                  foregroundColor:
-                      const Color(0xff2E7D32),
+                  foregroundColor: const Color(0xff2E7D32),
                   elevation: 0,
                   shape: RoundedRectangleBorder(
-                    borderRadius:
-                        BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(10),
                   ),
                 ),
                 child: const Text(
                   "Withdraw",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: TextStyle(fontWeight: FontWeight.bold),
                 ),
               ),
             ],
@@ -214,9 +196,7 @@ class EarningsScreen extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(18),
-        border: Border.all(
-          color: Colors.grey.shade300,
-        ),
+        border: Border.all(color: Colors.grey.shade300),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -236,19 +216,15 @@ class EarningsScreen extends StatelessWidget {
             height: 110,
             child: Obx(
               () => Row(
-                crossAxisAlignment:
-                    CrossAxisAlignment.end,
-                mainAxisAlignment:
-                    MainAxisAlignment.spaceAround,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: List.generate(
                   controller.earnings.value.weeklyIncome.length,
                   (index) {
-                    final value =
-                        controller.earnings.value.weeklyIncome[index];
+                    final value = controller.earnings.value.weeklyIncome[index];
 
                     return Column(
-                      mainAxisAlignment:
-                          MainAxisAlignment.end,
+                      mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         Container(
                           width: 20,
@@ -257,8 +233,7 @@ class EarningsScreen extends StatelessWidget {
                             color: index == 2
                                 ? const Color(0xff2E7D32)
                                 : const Color(0xffE4F3E7),
-                            borderRadius:
-                                BorderRadius.circular(6),
+                            borderRadius: BorderRadius.circular(6),
                           ),
                         ),
                         const SizedBox(height: 6),
@@ -289,8 +264,7 @@ class EarningsScreen extends StatelessWidget {
           Expanded(
             child: _summaryItem(
               title: "Orders Completed",
-              value:
-                  "${controller.earnings.value.ordersCompleted}",
+              value: "${controller.earnings.value.ordersCompleted}",
             ),
           ),
 
@@ -309,8 +283,7 @@ class EarningsScreen extends StatelessWidget {
           Expanded(
             child: _summaryItem(
               title: "Pending Payout",
-              value:
-                  "\$${controller.earnings.value.pendingPayout.toInt()}",
+              value: "\$${controller.earnings.value.pendingPayout.toInt()}",
             ),
           ),
         ],
@@ -318,31 +291,22 @@ class EarningsScreen extends StatelessWidget {
     );
   }
 
-  Widget _summaryItem({
-    required String title,
-    required String value,
-  }) {
+  Widget _summaryItem({required String title, required String value}) {
     return Container(
       height: 75,
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(14),
-        border: Border.all(
-          color: Colors.grey.shade300,
-        ),
+        border: Border.all(color: Colors.grey.shade300),
       ),
       child: Column(
-        mainAxisAlignment:
-            MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
             title,
             textAlign: TextAlign.center,
-            style: const TextStyle(
-              fontSize: 11,
-              color: Color(0xff78909C),
-            ),
+            style: const TextStyle(fontSize: 11, color: Color(0xff78909C)),
           ),
           const SizedBox(height: 4),
           Text(
@@ -361,70 +325,59 @@ class EarningsScreen extends StatelessWidget {
   Widget _transactions() {
     return Obx(
       () => Column(
-        children: controller.earnings.value.transactions.map(
-          (transaction) {
-            final bool isIncome = transaction.isIncome;
+        children: controller.earnings.value.transactions.map((transaction) {
+          final bool isIncome = transaction.isIncome;
 
-            return Container(
-              margin: const EdgeInsets.only(
-                bottom: 12,
-              ),
-              padding: const EdgeInsets.all(14),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius:
-                    BorderRadius.circular(14),
-                border: Border.all(
-                  color: Colors.grey.shade300,
+          return Container(
+            margin: const EdgeInsets.only(bottom: 12),
+            padding: const EdgeInsets.all(14),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(14),
+              border: Border.all(color: Colors.grey.shade300),
+            ),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        transaction.title,
+                        style: const TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xff263238),
+                        ),
+                      ),
+                      const SizedBox(height: 3),
+                      Text(
+                        transaction.date,
+                        style: const TextStyle(
+                          fontSize: 12,
+                          color: Color(0xff90A4AE),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment:
-                          CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          transaction.title,
-                          style: const TextStyle(
-                            fontSize: 14,
-                            fontWeight:
-                                FontWeight.bold,
-                            color:
-                                Color(0xff263238),
-                          ),
-                        ),
-                        const SizedBox(height: 3),
-                        Text(
-                          transaction.date,
-                          style: const TextStyle(
-                            fontSize: 12,
-                            color:
-                                Color(0xff90A4AE),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
 
-                  Text(
-                    isIncome
-                        ? "+\$${transaction.amount.toStringAsFixed(2)}"
-                        : "-\$${transaction.amount.toStringAsFixed(2)}",
-                    style: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                      color: isIncome
-                          ? const Color(0xff2E7D32)
-                          : const Color(0xff263238),
-                    ),
+                Text(
+                  isIncome
+                      ? "+\$${transaction.amount.toStringAsFixed(2)}"
+                      : "-\$${transaction.amount.toStringAsFixed(2)}",
+                  style: TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
+                    color: isIncome
+                        ? const Color(0xff2E7D32)
+                        : const Color(0xff263238),
                   ),
-                ],
-              ),
-            );
-          },
-        ).toList(),
+                ),
+              ],
+            ),
+          );
+        }).toList(),
       ),
     );
   }
@@ -433,26 +386,17 @@ class EarningsScreen extends StatelessWidget {
     return BottomNavigationBar(
       currentIndex: 3,
       type: BottomNavigationBarType.fixed,
-      selectedItemColor:
-          const Color(0xff2E7D32),
-      unselectedItemColor:
-          const Color(0xff607D8B),
+      selectedItemColor: const Color(0xff2E7D32),
+      unselectedItemColor: const Color(0xff607D8B),
       items: const [
-        BottomNavigationBarItem(
-          icon: Icon(Icons.home_outlined),
-          label: "Home",
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.eco_outlined),
-          label: "Farm",
-        ),
+        BottomNavigationBarItem(icon: Icon(Icons.home_outlined), label: "Home"),
+        BottomNavigationBarItem(icon: Icon(Icons.eco_outlined), label: "Farm"),
         BottomNavigationBarItem(
           icon: Icon(Icons.receipt_long_outlined),
           label: "Orders",
         ),
         BottomNavigationBarItem(
-          icon:
-              Icon(Icons.account_balance_wallet_outlined),
+          icon: Icon(Icons.account_balance_wallet_outlined),
           label: "Earnings",
         ),
         BottomNavigationBarItem(

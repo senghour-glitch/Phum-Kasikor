@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:phum_kasikor/color/color.dart';
-import 'package:phum_kasikor/controllers/auth/login_controller.dart';
+import 'package:phum_kasikor/controllers/auth/auth_controller.dart';
 import 'package:phum_kasikor/view/Auth/login_screen.dart';
 import 'package:phum_kasikor/view/Auth/sigup_screen.dart';
 import 'package:phum_kasikor/view/Customer/customer_home_screen.dart';
@@ -12,7 +12,7 @@ class WelcomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    final controller = Get.put(LoginController());
+    final auth = Get.find<AuthController>();
 
     return Scaffold(
       backgroundColor: const Color(0xFFFAF9F5),
@@ -168,7 +168,7 @@ class WelcomeScreen extends StatelessWidget {
 
                 const SizedBox(height: 12),
                 Obx(
-                  () => controller.isLoading.value
+                  () => auth.isLoading.value
                       ? const Padding(
                           padding: EdgeInsets.symmetric(vertical: 16.0),
                           child: CircularProgressIndicator(),
@@ -176,11 +176,11 @@ class WelcomeScreen extends StatelessWidget {
                       : Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            // Facebook
+                            // Facebook - not wired up yet, kept visually for layout
                             _socialImageButton(
                               image: 'assets/facebook.jpg',
                               onTap: () {
-                                controller.signInWithFacebook();
+                                Get.snackbar('Coming soon', 'Facebook sign-in is not available yet.');
                               },
                             ),
                             SizedBox(width: 14),
@@ -189,7 +189,7 @@ class WelcomeScreen extends StatelessWidget {
                             _socialImageButton(
                               image: 'assets/google.jpg',
                               onTap: () {
-                                controller.signInWithGoogle();
+                                auth.signInWithGoogle();
                               },
                             ),
                             SizedBox(width: 14),
@@ -198,7 +198,7 @@ class WelcomeScreen extends StatelessWidget {
                 ),
                 // Display error messages
                 Obx(
-                  () => controller.errorMessage.value != null
+                  () => auth.errorMessage.value != null
                       ? Padding(
                           padding: const EdgeInsets.only(top: 12.0),
                           child: Container(
@@ -212,7 +212,7 @@ class WelcomeScreen extends StatelessWidget {
                               border: Border.all(color: Colors.red.shade300),
                             ),
                             child: Text(
-                              controller.errorMessage.value!,
+                              auth.errorMessage.value!,
                               style: TextStyle(
                                 color: Colors.red.shade900,
                                 fontSize: 12,

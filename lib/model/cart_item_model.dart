@@ -58,4 +58,6 @@ class CartItemModel {
     unit: json['unit'] as String? ?? 'kg',
     imageUrl: json['image_url'] as String?,
   );
+
+ 
 }

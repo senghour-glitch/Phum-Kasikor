@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../controllers/auth/auth_controller.dart';
 import '../../widgets/auth/auth_header.dart';
-import 'otp_screen.dart';
-import 'sigup_screen.dart';
+
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});

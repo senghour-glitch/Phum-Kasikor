@@ -65,7 +65,9 @@ class AuthController extends GetxController {
       }
 
       final credential = GoogleAuthProvider.credential(idToken: idToken);
-      final userCredential = await _firebaseAuth.signInWithCredential(credential);
+      final userCredential = await _firebaseAuth.signInWithCredential(
+        credential,
+      );
       final firebaseIdToken = await userCredential.user?.getIdToken();
 
       if (firebaseIdToken == null) {
@@ -74,20 +76,22 @@ class AuthController extends GetxController {
         return;
       }
 
-      final json = await ApiClient.post('auth/firebase/verify', {'id_token': firebaseIdToken});
+      final json = await ApiClient.post('auth/firebase/verify', {
+        'id_token': firebaseIdToken,
+      });
       await TokenStorage.saveToken(json['token'] as String);
       final user = UserModel.fromJson(json['user'] as Map<String, dynamic>);
       final isNew = json['is_new'] as bool? ?? false;
 
       isLoading.value = false;
 
-      if (isNew || user.role == null) {
+      if (isNew) {
         Get.toNamed('/choose-role');
         return;
       }
 
-      await TokenStorage.saveRole(user.role!.name);
-      _goHome(user.role!);
+      await TokenStorage.saveRole(user.role.name);
+      _goHome(user.role);
     } on GoogleSignInException catch (e) {
       isLoading.value = false;
       if (e.code != GoogleSignInExceptionCode.canceled) {
@@ -107,7 +111,8 @@ class AuthController extends GetxController {
       : loginPhoneController.text.trim();
   String get otp => otpControllers.map((controller) => controller.text).join();
 
-  bool _validPhone(String value) => value.trim().replaceAll(RegExp(r'[^0-9]'), '').length >= 8;
+  bool _validPhone(String value) =>
+      value.trim().replaceAll(RegExp(r'[^0-9]'), '').length >= 8;
 
   void _showError(String message) {
     errorMessage.value = message;
@@ -123,7 +128,9 @@ class AuthController extends GetxController {
   Future<void> beginLogin() async {
     if (!_validPhone(loginPhoneController.text) ||
         loginPasswordController.text.trim().length < 6) {
-      _showError('Enter a valid phone number and a password of at least 6 characters.');
+      _showError(
+        'Enter a valid phone number and a password of at least 6 characters.',
+      );
       return;
     }
 
@@ -141,14 +148,8 @@ class AuthController extends GetxController {
 
       isLoading.value = false;
 
-      if (user.role == null) {
-        // Account exists but never finished onboarding.
-        Get.toNamed('/choose-role');
-        return;
-      }
-
-      await TokenStorage.saveRole(user.role!.name);
-      _goHome(user.role!);
+      await TokenStorage.saveRole(user.role.name);
+      _goHome(user.role);
     } on ApiException catch (e) {
       isLoading.value = false;
       _showError(e.message);
@@ -159,7 +160,9 @@ class AuthController extends GetxController {
     if (signUpNameController.text.trim().isEmpty ||
         !_validPhone(signUpPhoneController.text) ||
         signUpPasswordController.text.trim().length < 6) {
-      _showError('Complete your name, phone number, and a password of at least 6 characters.');
+      _showError(
+        'Complete your name, phone number, and a password of at least 6 characters.',
+      );
       return;
     }
     if (!acceptedTerms.value) {
@@ -219,7 +222,6 @@ class AuthController extends GetxController {
   }
 
   void resendOtp() {
-    // TODO: wire to a resend-code endpoint once one exists on the backend.
     resendSeconds.value = 45;
     Get.snackbar('Code sent', 'A new verification code was sent to $phone.');
   }
@@ -230,7 +232,9 @@ class AuthController extends GetxController {
     errorMessage.value = null;
 
     try {
-      await ApiClient.put('profile/choose-role', {'role': selectedRole.value.name});
+      await ApiClient.put('profile/choose-role', {
+        'role': selectedRole.value.name,
+      });
       await TokenStorage.saveRole(selectedRole.value.name);
 
       isLoading.value = false;
@@ -269,51 +273,62 @@ class AuthController extends GetxController {
     }
   }
 
-  
   Future<void> completeLocation() async {
-  if (provinceController.text.trim().isEmpty) {
-    _showError('Choose your province or city first.');
-    return;
+    if (provinceController.text.trim().isEmpty) {
+      _showError('Choose your province or city first.');
+      return;
+    }
+
+    isLoading.value = true;
+    errorMessage.value = null;
+
+    try {
+      final district = districtController.text.trim();
+      final commune = communeController.text.trim();
+
+      final json = await ApiClient.put('profile/location', {
+        'province': provinceController.text.trim(),
+        if (district.isNotEmpty) 'district': district,
+        if (commune.isNotEmpty) 'commune': commune,
+      });
+
+      final user = UserModel.fromJson(json as Map<String, dynamic>);
+
+      isLoading.value = false;
+
+      _goHome(user.role);
+    } on ApiException catch (e) {
+      isLoading.value = false;
+      _showError(e.message);
+    }
   }
-
-  isLoading.value = true;
-  errorMessage.value = null;
-
-  try {
-    final district = districtController.text.trim();
-    final commune = communeController.text.trim();
-
-    final json = await ApiClient.put('profile/location', {
-      'province': provinceController.text.trim(),
-      if (district.isNotEmpty) 'district': district,
-      if (commune.isNotEmpty) 'commune': commune,
-    });
-
-    final user = UserModel.fromJson(json as Map<String, dynamic>);
-
-    isLoading.value = false;
-
-    _goHome(user.role ?? selectedRole.value);
-  } on ApiException catch (e) {
-    isLoading.value = false;
-    _showError(e.message);
-  }
-}
 
   void _goHome(UserRole role) {
-    Get.offAll(() => role == UserRole.farmer
-        ? const FarmerHomeScreen()
-        : const CustomerHomeScreen());
+    Get.offAll(
+      () => role == UserRole.farmer
+          ? const FarmerHomeScreen()
+          : const CustomerHomeScreen(),
+    );
   }
 
   @override
   void onClose() {
     for (final controller in [
-      loginPhoneController, loginPasswordController, signUpNameController,
-      signUpPhoneController, signUpEmailController, signUpPasswordController,
-      profileNameController, farmNameController, bioController,
-      addressController, profilePhoneController, provinceController,
-      districtController, communeController, ...otpControllers,
+      loginPhoneController,
+      loginPasswordController,
+      signUpNameController,
+      signUpPhoneController,
+      signUpEmailController,
+      signUpPasswordController,
+      profileNameController,
+      farmNameController,
+      bioController,
+      addressController,
+      profilePhoneController,
+      provinceController,
+      districtController,
+      communeController,
+      ...otpControllers,
     ]) {
       controller.dispose();
     }
